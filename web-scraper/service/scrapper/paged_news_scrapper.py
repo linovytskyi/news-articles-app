@@ -28,7 +28,7 @@ class PagedNewsScrapper(NewsScrapper, ABC):
         self.logger.info("Scrapper finishes work")
 
     def get_url_of_next_articles_list(self):
-        if self.current_page_index >= self.end_page_index:
+        if self.current_page_index < self.end_page_index:
             return None
 
         return self.construct_next_articles_list_url()

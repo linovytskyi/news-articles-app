@@ -7,8 +7,8 @@ from service.scrapper.paged_news_scrapper import PagedNewsScrapper
 
 class UnianScrapper(PagedNewsScrapper):
 
-    def __init__(self, starting_page_index, amount_of_pages_to_scrape):
-        super().__init__(starting_page_index, amount_of_pages_to_scrape)
+    def __init__(self, starting_page_index, end_page_index):
+        super().__init__(starting_page_index, end_page_index)
         self.source = "https://www.unian.ua/"
 
     def get_article_links_from_articles_list_page(self, page_url):
@@ -65,5 +65,5 @@ class UnianScrapper(PagedNewsScrapper):
         return f"https://www.unian.ua/detail/all_news?page={self.current_page_index}"
 
 
-scrapper = UnianScrapper(50, 100)
+scrapper = UnianScrapper(100, 50)
 scrapper.run_scrapper()
