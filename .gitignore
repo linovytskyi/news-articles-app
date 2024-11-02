@@ -272,5 +272,3 @@ target/
 news-api/src/main/resources/application-local.properties
 classification-api/src/models/results/checkpoint-10000
 
-
-# End of https://mrkandreev.name/snippets/gitignore-generator/#Java,Python,Angular,Intellij,Java-Web,Js,TS

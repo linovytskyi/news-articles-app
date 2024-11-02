@@ -68,12 +68,3 @@ if __name__ == '__main__':
     )
 
     trainer.train()
-
-    def classify_text(text):
-        inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True, max_length=512).to(device)
-        outputs = model(**inputs)
-        prediction = torch.argmax(outputs.logits, dim=-1)
-        return id2label[prediction.item()]
-
-    example_text = "Збірна Україна перемогла у важливому матчі на Євро."
-    print("Категорія новини:", classify_text(example_text))
