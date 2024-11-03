@@ -1,5 +1,5 @@
 import torch
-from ml.models.text_classification_model import load_model
+from ml.classification.models.text_classification_model import load_model
 
 class TextClassifier:
 

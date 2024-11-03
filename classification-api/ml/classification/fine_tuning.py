@@ -47,7 +47,7 @@ if __name__ == '__main__':
     tokenized_val_dataset = dataset["test"].map(preprocess_with_tokenizer, batched=True)
 
     training_args = TrainingArguments(
-        output_dir="../../results",
+        output_dir="models/results",
         evaluation_strategy="epoch",
         learning_rate=2e-5,
         per_device_train_batch_size=4,

@@ -1,6 +1,6 @@
 import logging
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from fastapi.params import Depends
 from pydantic import BaseModel
 from app.dependencies import text_classifier, get_topic_service, get_keyword_service
@@ -25,19 +25,19 @@ def analyze_text(text_data: TextData,
     topic_name = text_classifier.classify_topic(text)
     topic = topic_service.get_topic_by_name(topic_name)
 
-    if topic is None:
-        raise HTTPException(status_code=404, detail="Topic not found")
-
     topic_keywords = keyword_service.get_all_keywords_by_topic_id(topic.id)
 
-    logger.info(f"Topic keywords {topic_keywords}")
-
     persons = text_entity_extractor.extract_entities_with_label(text, "PER")
+    locations = text_entity_extractor.extract_entities_with_label(text, "LOC")
+    organizations = text_entity_extractor.extract_entities_with_label(text, "ORG")
+
     keywords = keyword_extractor.extract_keywords(text, topic_keywords)
 
     analyzed_text = AnalyzedText(
         topic=topic,
         persons=persons,
+        locations=locations,
+        organizations=organizations,
         keywords=keywords
     )
 

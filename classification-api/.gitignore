@@ -1,4 +1,4 @@
 .env
 
-ml/models/results/
+ml/classification/models/results/
 alembic.ini
