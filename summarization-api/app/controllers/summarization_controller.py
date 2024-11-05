@@ -37,5 +37,5 @@ def classify_text(text_data: TextData):
 @router.post("/sentences", response_model=str)
 def classify_text(text_data: TextData):
     text = text_data.text
-    logger.info(f"Received request to summary text in sentences:\n {text}")
+    logger.info(f"Received request to summarize text into sentences:\n {text}")
     return text_summarizer.summarize(text)
