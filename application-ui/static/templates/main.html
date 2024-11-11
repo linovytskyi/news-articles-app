@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Articles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav {
+            margin: 10px 0;
+        }
+
+        main {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .content-container {
+            display: flex;
+            flex: 1;
+            width: 100%;
+        }
+
+        .left, .right, .middle {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border: 1px solid #ccc;
+        }
+
+        .left {
+            flex: 1;
+            position: sticky;
+            top: 0;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .left ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .left ul li {
+            margin-bottom: 0;
+        }
+
+        .left ul li a {
+            display: inline-block;
+            padding: 8px 12px;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .left ul li a:hover {
+            background-color: #0056b3;
+        }
+
+        .middle {
+            flex: 3;
+        }
+
+        .right {
+            flex: 1;
+        }
+
+        .news-article {
+            margin-bottom: 20px;
+        }
+
+        .news-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .news-article img {
+            display: block;
+            margin: 0 auto 10px;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .sidebar-news {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+        }
+
+        .sidebar-news .news-title {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-news .news-meta {
+            font-size: 0.85em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>News Articles</h1>
+    <nav>
+        <ul style="list-style: none; display: flex; justify-content: center; gap: 15px; padding: 0;">
+            <li><a href="#" style="text-decoration: none; color: white;">Home</a></li>
+            <li><a href="#" style="text-decoration: none; color: white;">Articles</a></li>
+            <li><a href="#" style="text-decoration: none; color: white;">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div class="content-container">
+        <div class="left">
+            <ul>
+                <li><a href="#">Keyword 1</a></li>
+                <li><a href="#">Keyword 2</a></li>
+                <li><a href="#">Keyword 3</a></li>
+                <li><a href="#">Keyword 4</a></li>
+                <li><a href="#">Keyword 5</a></li>
+            </ul>
+        </div>
+        <div class="middle">
+            <div class="news-article">
+                <div class="news-title">Sample News Title</div>
+                <img src="https://img.tsn.ua/cached/762/tsn-fc8d4bb0191801bebf97b41f256288af/thumbs/1036x648/5a/9e/c8a90e12bb228cc2063517c1b05e9e5a.jpeg" alt="News Image">
+                <div class="news-meta">
+                    <span>Date: 2024-11-11</span>
+                    <span>Source: News Platform</span>
+                </div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
+            </div>
+            <div class="news-article">
+                <div class="news-title">Another News Title</div>
+                <img src="https://img.tsn.ua/cached/762/tsn-fc8d4bb0191801bebf97b41f256288af/thumbs/1036x648/5a/9e/c8a90e12bb228cc2063517c1b05e9e5a.jpeg" alt="News Image">
+                <div class="news-meta">
+                    <span>Date: 2024-11-10</span>
+                    <span>Source: Another News</span>
+                </div>
+                <p>Suspendisse potenti. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam.</p>
+            </div>
+        </div>
+        <div class="right">
+            <div class="sidebar-news">
+                <div class="news-title">Short News 1</div>
+                <div class="news-meta">
+                    <span>Date: 2024-11-11</span>
+                    <span>Source: Quick News</span>
+                </div>
+            </div>
+            <div class="sidebar-news">
+                <div class="news-title">Short News 2</div>
+                <div class="news-meta">
+                    <span>Date: 2024-11-10</span>
+                    <span>Source: Flash News</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
