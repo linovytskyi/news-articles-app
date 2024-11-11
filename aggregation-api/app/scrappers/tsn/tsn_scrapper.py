@@ -3,18 +3,17 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 
-from model.article import Article
-from service.scrapper.date_news_scrapper import DateNewsScrapper
+from app.model.article import Article
+from app.scrappers.date_news_scrapper import DateNewsScrapper
 
 
 class TsnScrapper(DateNewsScrapper):
 
 
-    def __init__(self, start_date, end_date):
-        super().__init__(start_date, end_date)
-        self.source = "https://tsn.ua/"
+    def __init__(self):
+        super().__init__("https://tsn.ua/", "https://tsn.ua/news")
 
-    def get_amount_of_pages(self, url):
+    def scrap_amount_of_pages_for_date(self, url):
         response = requests.get(url, headers=self.HEADERS, timeout=10)
 
         if response.status_code == 200:
@@ -24,7 +23,7 @@ class TsnScrapper(DateNewsScrapper):
         else:
             self.logger.error(f"Failed to retrieve the page. Status code: {response.status_code}")
 
-    def get_article_links_from_articles_list_page(self, page_url):
+    def scrap_article_links_from_list_page(self, page_url):
         response = requests.get(page_url, headers=self.HEADERS, timeout=10)
 
         if response.status_code == 200:
@@ -38,13 +37,13 @@ class TsnScrapper(DateNewsScrapper):
         else:
             self.logger.error(f"Failed to retrieve the page. Status code: {response.status_code}")
 
-    def scrap_news_article(self, url):
+    def scrap_article(self, url):
         response = requests.get(url, headers=self.HEADERS, timeout=10)
 
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
 
-            article = soup.find("main", {"class": "c-article"})
+            article_soup = soup.find("main", {"class": "c-article"})
 
             article_box = soup.find("div", {"class": "c-article__box"})
             article_title = article_box.find("h1", {"class": "c-card__title"}).span.text
@@ -55,14 +54,20 @@ class TsnScrapper(DateNewsScrapper):
             article_body_p = article_body.find_all("p")
             article_footer = article_box.find("footer", {"class": "c-card__foot"})
             article_datetime = article_footer.find("time")
-            article_date = article_datetime['datetime']
+            article_date_str = article_datetime['datetime']
+
+            dt = datetime.fromisoformat(article_date_str)
+
+            article_date = dt.strftime("%Y-%m-%dT%H:%M:%S")
             article_source = self.source
             article_body_text_array = []
 
-            article_amount_of_view = article_footer.find("dd", {
-                "class": "c-bar__label i-before i-before--spacer-r-sm i-views"}).get_text().strip()
+            amount_of_views = article_footer.find("dd", {"class": "c-bar__label i-before i-before--spacer-r-sm i-views"})
+            article_amount_of_view = None
+            if amount_of_views is not None:
+                article_amount_of_view = amount_of_views.get_text().strip()
 
-            related_topic_nav_bar = article.find("nav", {"class": "c-bar"})
+            related_topic_nav_bar = article_soup.find("nav", {"class": "c-bar"})
             related_topics_div = related_topic_nav_bar.find_all("span", {"class": ["c-tag", "c-tag__label"]})
             related_topic_text = []
 
@@ -78,23 +83,16 @@ class TsnScrapper(DateNewsScrapper):
             article_body_text_array.pop()
             article_body_text = ''.join(article_body_text_array)
 
-            article_object = Article(article_title.strip(), article_type.strip(), article_body_text.strip(), related_topic_text,
-                                     article_date, article_source.strip(), url, article_amount_of_view)
-            return article_object
+            article_image_link = article_soup.find("img", {"class": "c-card__embed__img"})['src']
+
+            return Article(article_title.strip(), article_type.strip(), article_body_text.strip(), related_topic_text,
+                                     article_date, article_source.strip(), url, article_amount_of_view, article_image_link)
 
         else:
             self.logger.error(f"Failed to retrieve the page. Status code: {response.status_code}")
 
-    def construct_next_articles_list_url(self):
+    def construct_url_of_next_list_page(self):
         day = self.current_date.strftime("%d")
         month = self.current_date.strftime("%m")
         year = self.current_date.strftime("%Y")
         return f"https://tsn.ua/news/page-{self.current_page}?day={day}&month={month}&year={year}"
-
-
-start_date = datetime.strptime("2024-10-01", "%Y-%m-%d")
-end_date = datetime.strptime("2024-10-14", "%Y-%m-%d")
-scrapper = TsnScrapper(start_date, end_date)
-scrapper.run_scrapper()
-
-
