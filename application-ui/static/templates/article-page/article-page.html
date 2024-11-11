@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article Page</title>
+  <link rel="stylesheet" href="main.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+    }
+
+    nav {
+      margin: 10px 0;
+    }
+
+    main {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .content-container {
+      display: flex;
+      flex: 1;
+      width: 100%;
+    }
+
+    .left, .right, .middle {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border: 1px solid #ccc;
+    }
+
+    .left {
+      flex: 1;
+      position: sticky;
+      top: 0;
+      height: 100%;
+      overflow-y: auto;
+    }
+
+    .left ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .left ul li {
+      margin-bottom: 0;
+    }
+
+    .left ul li a {
+      display: inline-block;
+      padding: 8px 12px;
+      background-color: #007BFF;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 20px;
+      font-size: 0.9em;
+    }
+
+    .left ul li a:hover {
+      background-color: #0056b3;
+    }
+
+    .middle {
+      flex: 3;
+    }
+
+    .right {
+      flex: 1;
+    }
+
+    .news-article {
+      margin-bottom: 20px;
+    }
+
+    .news-title {
+      font-size: 2.5em;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .news-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9em;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .news-article img {
+      display: block;
+      margin: 0 auto 15px;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .keywords, .places, .people, .related-news {
+      margin-top: 20px;
+    }
+
+    .keywords ul, .places ul, .people ul, .related-news ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .keywords ul li, .places ul li, .people ul li, .related-news ul li {
+      margin-bottom: 0;
+    }
+
+    .keywords ul li a, .places ul li a, .people ul li a, .related-news ul li a {
+      display: inline-block;
+      padding: 8px 12px;
+      background-color: #28a745;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 20px;
+      font-size: 0.9em;
+    }
+
+    .keywords ul li a:hover, .places ul li a:hover, .people ul li a:hover, .related-news ul li a:hover {
+      background-color: #218838;
+    }
+
+    footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 5px;
+      font-size: 0.8em;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Article Page</h1>
+  <nav>
+    <ul style="list-style: none; display: flex; justify-content: center; gap: 15px; padding: 0;">
+      <li><a href="#" style="text-decoration: none; color: white;">Home</a></li>
+      <li><a href="#" style="text-decoration: none; color: white;">Articles</a></li>
+      <li><a href="#" style="text-decoration: none; color: white;">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+  <div class="content-container">
+    <div class="left">
+      <ul>
+        <li><a href="#">Keyword 1</a></li>
+        <li><a href="#">Keyword 2</a></li>
+        <li><a href="#">Keyword 3</a></li>
+        <li><a href="#">Keyword 4</a></li>
+        <li><a href="#">Keyword 5</a></li>
+      </ul>
+    </div>
+    <div class="middle">
+      <div class="news-article">
+        <div class="news-title">Detailed Article Title</div>
+        <img src="https://img.tsn.ua/cached/762/tsn-fc8d4bb0191801bebf97b41f256288af/thumbs/1036x648/5a/9e/c8a90e12bb228cc2063517c1b05e9e5a.jpeg" alt="Article Image">
+        <div class="news-meta">
+          <span>Date: 2024-11-11</span>
+          <span>Source: News Platform</span>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris.</p>
+        <p>Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+      </div>
+      <div class="keywords">
+        <h3>Keywords</h3>
+        <ul>
+          <li><a href="#">Keyword 1</a></li>
+          <li><a href="#">Keyword 2</a></li>
+          <li><a href="#">Keyword 3</a></li>
+        </ul>
+      </div>
+      <div class="places">
+        <h3>Places</h3>
+        <ul>
+          <li><a href="#">Place 1</a></li>
+          <li><a href="#">Place 2</a></li>
+        </ul>
+      </div>
+      <div class="people">
+        <h3>People</h3>
+        <ul>
+          <li><a href="#">Person 1</a></li>
+          <li><a href="#">Person 2</a></li>
+        </ul>
+      </div>
+      <div class="related-news">
+        <h3>Related News</h3>
+        <ul>
+          <li><a href="#">Related News 1</a></li>
+          <li><a href="#">Related News 2</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="right">
+      <div class="sidebar-news">
+        <div class="news-title">Sidebar News 1</div>
+        <div class="news-meta">
+          <span>Date: 2024-11-11</span>
+          <span>Source: Quick News</span>
+        </div>
+      </div>
+      <div class="sidebar-news">
+        <div class="news-title">Sidebar News 2</div>
+        <div class="news-meta">
+          <span>Date: 2024-11-10</span>
+          <span>Source: Flash News</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>
+  <p>&copy; 2024 News Platform. All Rights Reserved.</p>
+</footer>
