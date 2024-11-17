@@ -5,7 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 from app.client.rabbitmq_client import RabbitMqClient
 # Importing the scrapers
 from app.scrappers.tsn.tsn_scrapper import TsnScrapper
-from app.scrappers.news_source2.unian_scrapper import UnianScrapper
+from app.scrappers.news_source2.source2_scrapper import UnianScrapper
 
 # Initialize the scraper instances
 tsn_scrapper = TsnScrapper()
