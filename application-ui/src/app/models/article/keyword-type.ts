@@ -1,0 +1,6 @@
+export enum KeywordType {
+  PERSON = "PERSON",
+  LOCATION = "LOCATION",
+  ORGANIZATION = "ORGANIZATION",
+  GENERAL = "GENERAL"
+}

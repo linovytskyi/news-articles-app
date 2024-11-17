@@ -1,0 +1,51 @@
+<app-topic-selection (topicSelectedEmitter)="topicChangedHandler($event)"></app-topic-selection>
+<main *ngIf="newsFeed">
+  <div class="content-container">
+    <div class="left-sidebar">
+      <h2 style="text-align: center">Найбільш популярні ключові слова <span *ngIf="selectedTopic">за темою {{selectedTopic}}</span></h2>
+      <div class="keywords-list">
+        <div class="keyword-item" *ngFor="let keyword of topKeywords"
+             (click)="handleKeywordSelection(keyword)"
+             [ngClass]="isKeywordSelected(keyword) ? 'selected' : ''">{{ keyword }}</div>
+      </div>
+      <h2 style="text-align: center">Найбільш популярні теми</h2>
+      <div class="visualization-wrapper">
+        <div class="pie-and-data-set-wrapper">
+          <div echarts [options]="topTopicsChartOption" class="demo-chart"></div>
+        </div>
+      </div>
+    </div>
+    <div class="news-items">
+      <div class="news-item" *ngFor="let article of newsFeed.feedArticles">
+        <div class="middle">
+          <div class="news-aggregatedArticle">
+            <div class="news-title" (click)="navigateToArticlePage(article.id)">{{ article.title }}</div>
+            <div class="news-topic">{{ article.topic }}</div>
+            <img src="{{article.pictureLink}}" alt="News Image">
+            <div class="news-meta">
+              <span>Date: {{ article.createdAt }}</span>
+              <span>Source: {{ article.source.name }}</span>
+            </div>
+            <p class="news-summary" *ngFor="let paragraph of getSummaryParagraphs(article)">{{ paragraph }}</p>
+          </div>
+          <div class="news-keywords" *ngIf="article.keywords.length > 0">
+            <h3>Ключові слова:</h3>
+            <div class="keywords-list">
+              <div class="keyword-item" *ngFor="let keyword of article.keywords">{{ keyword }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <h2 style="text-align: center">Новини за темою {{article.topic}}</h2>
+          <div class="sidebar-news" *ngFor="let shortArticle of article.topicArticles">
+            <div class="news-title" (click)="navigateToArticlePage(shortArticle.id)">{{ shortArticle.title }}</div>
+            <div class="news-meta">
+              <span>Date: {{ shortArticle.createdAt }}</span>
+              <span>Source: {{ shortArticle.source.name }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

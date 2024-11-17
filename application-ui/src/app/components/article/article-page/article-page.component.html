@@ -1,0 +1,91 @@
+<app-topic-selection></app-topic-selection>
+<main *ngIf="article">
+  <div class="content-container">
+    <div class="left-sidebar">
+
+    </div>
+    <div class="news-items">
+      <div class="news-item">
+        <div class="middle">
+          <div class="news-aggregatedArticle">
+            <div class="news-title">{{ article.title }}</div>
+            <div class="news-topic">{{ article.topic }}</div>
+            <img src="{{article.pictureLink}}" alt="News Image">
+            <div class="news-meta">
+              <span>Date: {{ article.createdAt }}</span>
+              <span>Source: {{ article.source.name }}</span>
+            </div>
+            <div class="radio-wrapper-19">
+              <div class="radio-inputs-19">
+                <label>
+                  <input
+                    type="radio"
+                    name="radio-examples"
+                    [value]="TextViewOptions.FULL_TEXT"
+                    [(ngModel)]="selectedTextViewOption"
+                  />
+                  <span class="name">Повний текст</span>
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="radio-examples"
+                    [value]="TextViewOptions.SUMMARY"
+                    [(ngModel)]="selectedTextViewOption"
+                  />
+                  <span class="name">Підсумок</span>
+                </label>
+              </div>
+            </div>
+            <p class="news-summary" *ngFor="let paragraph of getTextParagraphs(article)">{{ paragraph }}</p>
+
+            <div class="source">
+              <h3>Джерело:</h3>
+              <a [href]="article.source.url">{{article.source.name}}</a>
+              <br>
+              <a [href]="article.url">{{article.originalTitle}}</a>
+            </div>
+
+            <div class="news-people" *ngIf="getFilteredArticleKeywordsByType(KeywordType.PERSON).length > 0">
+              <h3>Люди:</h3>
+              <div class="keywords-list">
+                <div class="keyword-item" *ngFor="let location of getFilteredArticleKeywordsByType(KeywordType.PERSON)">{{ location.value }}</div>
+              </div>
+            </div>
+
+            <!-- Organizations -->
+            <div class="news-organizations" *ngIf="getFilteredArticleKeywordsByType(KeywordType.ORGANIZATION).length > 0">
+              <h3>Організації:</h3>
+              <div class="keywords-list">
+                <div class="keyword-item" *ngFor="let location of getFilteredArticleKeywordsByType(KeywordType.ORGANIZATION)">{{ location.value }}</div>
+              </div>
+            </div>
+
+            <!-- Locations -->
+            <div class="news-locations" *ngIf="getFilteredArticleKeywordsByType(KeywordType.LOCATION).length > 0">
+              <h3>Локації:</h3>
+              <div class="keywords-list">
+                <div class="keyword-item" *ngFor="let location of getFilteredArticleKeywordsByType(KeywordType.LOCATION)">{{ location.value }}</div>
+              </div>
+            </div>
+            <div class="news-keywords" *ngIf="getFilteredArticleKeywordsByType(KeywordType.GENERAL).length > 0">
+              <h3>Ключові слова:</h3>
+              <div class="keywords-list">
+                <div class="keyword-item" *ngFor="let location of getFilteredArticleKeywordsByType(KeywordType.GENERAL)">{{ location.value }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="sidebar-news">
+            <div class="news-title"></div>
+            <div class="news-meta">
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

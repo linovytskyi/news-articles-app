@@ -1,6 +1,7 @@
 package com.newsarcticlesapp.newsapi.listener;
 
-import com.newsarcticlesapp.newsapi.listener.model.Article;
+import com.newsarcticlesapp.newsapi.listener.model.AggregatedArticle;
+import com.newsarcticlesapp.newsapi.service.AggregationService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,19 +9,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class ArticleListener {
 
-    private final ObjectMapper objectMapper;
+    private final AggregationService aggregationService;
 
-    public ArticleListener(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+    public ArticleListener(AggregationService aggregationService) {
+        this.aggregationService = aggregationService;
     }
 
     @RabbitListener(queues = "news_queue")
     public void receiveMessage(String message) {
         try {
-            // Deserialize the JSON message into an Article object
-            Article article = objectMapper.readValue(message, Article.class);
-            System.out.println("Received Article: " + article);
-            // Process the article (e.g., save to a database, log, etc.)
+            aggregationService.processAggregatedArticleFromQueue(message);
         } catch (Exception e) {
             System.err.println("Failed to process message: " + e.getMessage());
         }

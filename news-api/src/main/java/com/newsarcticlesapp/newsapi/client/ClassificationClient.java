@@ -1,7 +1,7 @@
 package com.newsarcticlesapp.newsapi.client;
 
 import com.newsarcticlesapp.newsapi.client.model.ClassificationResponse;
-import com.newsarcticlesapp.newsapi.client.model.TextRequest;
+import com.newsarcticlesapp.newsapi.client.model.ArticleText;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,9 +24,8 @@ public class ClassificationClient {
         this.baseUrl = classificationApiUrl;
     }
 
-    public ClassificationResponse classifyText(String text) {
-        TextRequest request = new TextRequest(text);
-        LOGGER.info("base url {}", baseUrl);
+    public ClassificationResponse getClassification(ArticleText request) {
+        LOGGER.info("Getting classification of article text {}", request);
         ResponseEntity<ClassificationResponse> response = restClient.post()
                 .uri(baseUrl + "/analyze")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -34,7 +33,7 @@ public class ClassificationClient {
                 .retrieve()
                 .toEntity(ClassificationResponse.class);
 
-        LOGGER.info("Received response {}", response.getBody());
+        LOGGER.info("Classification response {}", response.getBody());
         return response.getBody();
     }
 

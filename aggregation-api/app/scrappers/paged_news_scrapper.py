@@ -30,12 +30,12 @@ class PagedNewsScrapper(NewsScrapper, ABC):
         self.logger.info(f"Scraping news on page with index {self.current_page_index}")
         while url is not None:
             self.write_dataset_entries_from_news_page_list_url(url)
-            self.current_page_index -= 1
+            self.current_page_index += 1
             url = self.__construct_url_of_next_list_page()
         self.logger.info("Scrapper finishes work")
 
     def __construct_url_of_next_list_page(self):
-        if self.current_page_index < self.end_page_index:
+        if self.current_page_index > self.end_page_index:
             return None
 
         return self.construct_url_of_next_list_page()

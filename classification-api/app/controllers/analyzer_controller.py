@@ -31,14 +31,24 @@ def analyze_text(text_data: TextData,
     locations = text_entity_extractor.extract_entities_with_label(text, "LOC")
     organizations = text_entity_extractor.extract_entities_with_label(text, "ORG")
 
+    filtered_locations = [loc for loc in locations if loc in topic_keywords]
+    filtered_organizations = [org for org in organizations if org in topic_keywords]
+
+    all_excluded_entities = set(persons + filtered_locations + filtered_organizations)
     keywords = keyword_extractor.extract_keywords(text, topic_keywords)
+    filtered_keywords = []
+
+
+    for keyword in keywords:
+        if keyword not in all_excluded_entities:
+            filtered_keywords.append(keyword)
 
     analyzed_text = AnalyzedText(
         topic=topic,
         persons=persons,
-        locations=locations,
-        organizations=organizations,
-        keywords=keywords
+        locations=filtered_locations,
+        organizations=filtered_organizations,
+        keywords=filtered_keywords
     )
 
     return analyzed_text

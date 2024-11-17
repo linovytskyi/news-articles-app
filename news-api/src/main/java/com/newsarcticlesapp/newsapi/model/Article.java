@@ -1,8 +1,13 @@
 package com.newsarcticlesapp.newsapi.model;
 
+import com.newsarcticlesapp.newsapi.listener.model.AggregatedArticle;
 import jakarta.persistence.*;
 import lombok.Data;
-import java.util.List;
+import lombok.EqualsAndHashCode;
+
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -13,21 +18,41 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title", nullable = false)
+    private String originalTitle;
+
     private String title;
 
-    @Column(name = "text", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "topic")
+    private String topic;
+
+    @Lob
     private String text;
 
-    @Column(name = "author")
-    private String author;
+    @Lob
+    private String summary;
 
-    @Column(name = "source")
-    private String source;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
-    @Column(name = "url")
+    @ManyToOne
+    @JoinColumn(name = "source_id", nullable = false)
+    private Source source;
+
     private String url;
 
-    @Column(name = "type", length = 100)
-    private String type;
+    @Column(name = "picture_link")
+    private String pictureLink;
+
+    @Transient
+    private Set<ArticleKeyword> keywords = new HashSet<>();
+
+    public static Article createBaseArticleFromAggregated(AggregatedArticle aggregatedArticle) {
+        Article article = new Article();
+        article.setOriginalTitle(aggregatedArticle.getTitle());
+        article.setText(aggregatedArticle.getText());
+        article.setCreatedAt(aggregatedArticle.getDatetime());
+        article.setUrl(aggregatedArticle.getUrl());
+        article.setPictureLink(aggregatedArticle.getPictureLink());
+        return article;
+    }
 }

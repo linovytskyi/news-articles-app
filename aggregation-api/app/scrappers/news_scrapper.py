@@ -50,8 +50,8 @@ class NewsScrapper(ABC):
         latest_article_urls = article_urls[:amount]
         articles = []
         for url in latest_article_urls:
-            article = self.__scrap_article(url)
-            articles.append(article)
+            aggregatedArticle = self.__scrap_article(url)
+            articles.append(aggregatedArticle)
             self.__short_sleep()
 
         return articles
@@ -64,10 +64,10 @@ class NewsScrapper(ABC):
                 self.__create_dataset_entry_from_news_page_url(link)
 
     def __scrap_article_links_from_list_page(self, url):
-        self.logger.info(f"Trying to get article links from page with URL:{url}")
+        self.logger.info(f"Trying to get aggregatedArticle links from page with URL:{url}")
         try:
             article_links = self.scrap_article_links_from_list_page(url)
-            self.logger.info(f"Successfully scraped article links {article_links}")
+            self.logger.info(f"Successfully scraped aggregatedArticle links {article_links}")
             return article_links
         except ReadTimeout as e:
             self.__handle_read_timeout()
@@ -76,9 +76,9 @@ class NewsScrapper(ABC):
 
     def __create_dataset_entry_from_news_page_url(self, url):
         try:
-            article = self.__scrap_article(url)
-            self.CSV_WRITER.write_article_to_csv(article)
-            self.logger.info("Successfully written article to an CSV file.")
+            aggregatedArticle = self.__scrap_article(url)
+            self.CSV_WRITER.write_article_to_csv(aggregatedArticle)
+            self.logger.info("Successfully written aggregatedArticle to an CSV file.")
             self.__sleep()
         except ReadTimeout as e:
             self.__handle_read_timeout()
@@ -86,10 +86,10 @@ class NewsScrapper(ABC):
             logger.error(f"An exception occurred. Article with link {url} wasn't processed", exc_info=True)
 
     def __scrap_article(self, url):
-        self.logger.info(f"Trying to scrap article with URL: {url}")
-        article = self.scrap_article(url)
-        self.logger.info(f"Successfully scrapped article.\nTitle: {article.title}\nType: {article.article_type}\nKeywords: {article.keywords}")
-        return article
+        self.logger.info(f"Trying to scrap aggregatedArticle with URL: {url}")
+        aggregatedArticle = self.scrap_article(url)
+        self.logger.info(f"Successfully scrapped aggregatedArticle.\nTitle: {aggregatedArticle.title}\nType: {aggregatedArticle.article_type}\nKeywords: {aggregatedArticle.keywords}")
+        return aggregatedArticle
 
     def __handle_read_timeout(self):
         logger.error(f"Read time out occurred", exc_info=True)

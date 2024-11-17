@@ -1,0 +1,9 @@
+<header>
+  <h1 class="header-navigation"><span class="header-name" (click)="navigateTo(NavigationOptions.FEED)">Новини АІ</span>
+    <nav class="navigation-selection">
+      <div (click)="navigateTo(NavigationOptions.FEED)" [ngClass]="isSelected(NavigationOptions.FEED) ? 'navigation-item-selected' : ''" class="navigation-item">Стрічка</div>
+      <div (click)="navigateTo(NavigationOptions.SEARCH)" [ngClass]="isSelected(NavigationOptions.SEARCH) ? 'navigation-item-selected' : ''" class="navigation-item">Пошук</div>
+      <div (click)="navigateTo(NavigationOptions.ANALYTICS)" [ngClass]="isSelected(NavigationOptions.ANALYTICS) ? 'navigation-item-selected' : ''"  class="navigation-item">Аналітика</div>
+    </nav></h1>
+</header>
+<router-outlet></router-outlet>

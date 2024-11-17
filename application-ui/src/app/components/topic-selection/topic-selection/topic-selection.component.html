@@ -1,0 +1,8 @@
+<div class="topic-selection">
+  <div class="topic-selection-list">
+    <div *ngFor="let topic of topics"
+         (click)="selectTopic(topic)"
+         class="topic-selection-item"
+         [ngClass]="isSelected(topic) ? 'topic-selection-item-selected' : ''">{{topic}}</div>
+  </div>
+</div>
