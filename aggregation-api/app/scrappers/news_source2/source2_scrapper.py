@@ -8,7 +8,7 @@ from app.model.article import Article
 from app.scrappers.paged_news_scrapper import PagedNewsScrapper
 
 
-class UnianScrapper(PagedNewsScrapper):
+class Source2Scrapper(PagedNewsScrapper):
 
     def __init__(self):
         super().__init__("https://www.unian.ua/", "https://www.unian.ua/detail/main_news")

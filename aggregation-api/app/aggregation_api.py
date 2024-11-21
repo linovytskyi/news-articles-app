@@ -1,23 +1,34 @@
+from datetime import datetime
+
 import schedule
 import time
 from concurrent.futures import ThreadPoolExecutor
 
 from app.client.rabbitmq_client import RabbitMqClient
 # Importing the scrapers
-from app.scrappers.tsn.tsn_scrapper import TsnScrapper
-from app.scrappers.news_source2.source2_scrapper import UnianScrapper
+from app.scrappers.news_source2.source2_scrapper import Source2Scrapper
+from app.scrappers.news_source1.source1_scrapper import Source1Scrapper
 
-# Initialize the scraper instances
-tsn_scrapper = TsnScrapper()
-unian_scrapper = UnianScrapper()
+source1Scrapper = Source1Scrapper()
+source2Scrapper = Source2Scrapper()
+
+
+start_date = datetime.strptime("2024-10-01", "%Y-%m-%d")
+end_date = datetime.strptime("2024-10-13", "%Y-%m-%d")
+source1Scrapper.create_dataset_of_news_per_period(start_date, end_date)
+
+source2Scrapper.create_dataset_of_news_per_period(100, 200)
+
+
+
 
 # Initialize RabbitMQ client
 rabbit_mq_client = RabbitMqClient('localhost', 'news_queue', 'news_queue')
 
 # List of scrapers and their arguments
 scraper_tasks = [
-    (tsn_scrapper.scrap_latest_articles, 10),
-    (unian_scrapper.scrap_latest_articles, 10)
+    (source1Scrapper.scrap_latest_articles, 10),
+    (source2Scrapper.scrap_latest_articles, 10)
 ]
 
 # Function to scrape articles and send them to RabbitMQ concurrently

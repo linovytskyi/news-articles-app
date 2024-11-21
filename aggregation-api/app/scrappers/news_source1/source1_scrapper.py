@@ -7,7 +7,7 @@ from app.model.article import Article
 from app.scrappers.date_news_scrapper import DateNewsScrapper
 
 
-class TsnScrapper(DateNewsScrapper):
+class Source1Scrapper(DateNewsScrapper):
 
 
     def __init__(self):

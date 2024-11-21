@@ -14,6 +14,14 @@ class DateNewsScrapper(NewsScrapper, ABC):
     def __init__(self, source, latest_news_page_url):
         super().__init__(source, latest_news_page_url)
 
+    def __initialize_parameters_for_dataset_creation(self, start, end):
+        self.start_date = start
+        self.current_date = start
+        self.delta_in_day = timedelta(days=1)
+        self.end_date = end
+        self.amount_of_processed_dates = 0
+        self.current_page = 1
+
     @abstractmethod
     def scrap_amount_of_pages_for_date(self, url_of_first_page_of_date):
         pass
@@ -22,13 +30,6 @@ class DateNewsScrapper(NewsScrapper, ABC):
         self.__initialize_parameters_for_dataset_creation(start, end)
         self.__create_dataset_of_news_per_date_period()
 
-    def __initialize_parameters_for_dataset_creation(self, start, end):
-        self.start_date = start
-        self.current_date = start
-        self.delta_in_day = timedelta(days=1)
-        self.end_date = end
-        self.amount_of_processed_dates = 0
-        self.current_page = 1
 
     def __create_dataset_of_news_per_date_period(self):
         self.logger.info("Running scrapper...")
@@ -55,6 +56,7 @@ class DateNewsScrapper(NewsScrapper, ABC):
         while self.current_page <= amount_of_pages:
             self.__write_dataset_entries_from_news_page_list_url(page_url)
             self.current_page += 1
+            page_url = self.__construct_url_of_next_list_page()
         self.logger.info(f"Successfully scrapped news for date {self.current_date}")
 
     def __scrap_amount_of_pages_for_date(self, url):

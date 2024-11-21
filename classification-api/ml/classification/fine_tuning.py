@@ -23,7 +23,7 @@ def compute_metrics(pred):
 
 # Основний блок
 if __name__ == '__main__':
-    df = pd.read_csv('../data/results.csv')
+    df = pd.read_csv('../../data/processed/results.csv')
 
     train_df, test_df = train_test_split(df, test_size=0.2, stratify=df['article_type'], random_state=42)
 
@@ -53,9 +53,11 @@ if __name__ == '__main__':
         per_device_train_batch_size=4,
         per_device_eval_batch_size=4,
         num_train_epochs=4,
-        max_steps=10000,
+        max_steps=100_000,
         weight_decay=0.01,
-        fp16=True
+        fp16=True,
+        save_total_limit=2,
+        save_strategy="epoch"
     )
 
     trainer = Trainer(

@@ -8,14 +8,6 @@ class PagedNewsScrapper(NewsScrapper, ABC):
     current_page_index: int
     end_page_index: int
 
-    HEADERS = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
-    }
-
-    CSV_WRITER = CSVWriter('results.csv',
-                           ['title', 'article_type', 'text', 'keywords', 'datetime', 'source', 'url',
-                            'number_of_views'])
-
     def __init__(self, source, latest_news_page_url):
         super().__init__(source, latest_news_page_url)
 

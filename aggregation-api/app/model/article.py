@@ -5,7 +5,7 @@ class Article:
         self.article_type = article_type
         self.text = text
         self.keywords = keywords
-        self.datetime = datetime
+        self.create_at = datetime
         self.source = source
         self.url = url
         self.number_of_views = number_of_views
@@ -17,7 +17,7 @@ class Article:
             "article_type": self.article_type,
             "text": self.text,
             "keywords": self.keywords,
-            "datetime": self.datetime.isoformat() if hasattr(self.datetime, "isoformat") else str(self.datetime),
+            "datetime": self.create_at.isoformat() if hasattr(self.create_at, "isoformat") else str(self.create_at),
             "source": self.source,
             "url": self.url,
             "number_of_views": self.number_of_views,
