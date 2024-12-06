@@ -1,9 +1,10 @@
 import re
-
 import pandas as pd
 
 tsn = pd.read_csv('../raw/tsn.csv')
 unian = pd.read_csv("../raw/unian.csv")
+
+filtered_tsn = tsn[tsn['article_type'] == "Проспорт"]
 
 tsn_rename_map = {
     "Проспорт": "Спорт",
@@ -13,9 +14,6 @@ tsn_rename_map = {
     "Наука та IT": "Наука",
     "Здоров’я": "Здоров`я",
 }
-
-tsn = tsn.drop_duplicates(subset=['title'])
-print(tsn.shape[0])
 
 tsn['article_type'] = tsn['article_type'].replace(tsn_rename_map)
 
@@ -51,17 +49,17 @@ unian_rename_map = {
     "Кіно": "Різне"
 }
 
-unian = unian.drop_duplicates(subset=['title'])
-print(unian.shape[0])
-
-key_topics = ['Війна', 'Погода', 'Україна', 'Наука', 'Економіка', 'Зброя', 'Здоров`я', 'Корисні статті', 'Астрологія', 'Світ', 'Енергетика', 'Спорт', 'Політика', 'Шоу-бізнес', 'Зірки', 'Різне']
-
-tsn = tsn[tsn['article_type'].isin(key_topics)]
-
 unian['article_type'] = unian['article_type'].replace(unian_rename_map)
+
+key_topics = ['Війна', 'Погода', 'Україна', 'Наука',
+              'Економіка', 'Зброя', 'Здоров`я', 'Корисні статті',
+              'Астрологія', 'Світ', 'Енергетика', 'Спорт',
+              'Політика', 'Шоу-бізнес', 'Зірки', 'Різне']
+tsn = tsn[tsn['article_type'].isin(key_topics)]
 unian = unian[unian['article_type'].isin(key_topics)]
 
 combined = pd.concat([tsn, unian], ignore_index=True)
+combined = combined.drop_duplicates(subset=['title'])
 
 def clean_text(text):
     text = re.sub(r'Nbsp', ' ', text)
@@ -73,16 +71,16 @@ def clean_text(text):
 
 combined['text'] = combined['text'].apply(clean_text)
 
-tsn.to_csv('../processed/tsn_filtered.csv', index=False)
-unian.to_csv('../processed/unian_filtered.csv', index=False)
-combined.to_csv('../processed/results.csv', index=False)
+max_entries = 2000
+min_entries = 500
 
-print(combined['article_type'].value_counts())
+balanced_combined = combined.groupby('article_type').apply(
+    lambda x: x.sample(
+        n=min(max_entries, max(min_entries, len(x))),
+        replace=len(x) < min_entries,
+        random_state=42
+    )
+).reset_index(drop=True)
 
-max_count = combined['article_type'].value_counts().max()
-balanced_combined = combined.groupby('article_type').apply(lambda x: x.sample(max_count, replace=True, random_state=42)).reset_index(drop=True)
-
-balanced_combined['text'] = balanced_combined['text'].apply(clean_text)
-balanced_combined.to_csv('../processed/balanced_results.csv', index=False)
-
+balanced_combined.to_csv('../processed/results.csv', index=False)
 print(balanced_combined['article_type'].value_counts())

@@ -1,3 +1,4 @@
+import logging
 import random
 import time
 from abc import ABC, abstractmethod
@@ -11,7 +12,7 @@ from custom_logging import logger
 class NewsScrapper(ABC):
 
     def __init__(self, source, latest_news_page_url):
-        self.logger = logger
+        self.logger = logging.getLogger(__name__)
         self.__set_random_header()
         self.source = source
         self.latest_news_page_url = latest_news_page_url

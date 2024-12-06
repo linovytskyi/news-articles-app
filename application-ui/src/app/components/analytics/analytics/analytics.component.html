@@ -1,1 +1,48 @@
-<p>analytics works!</p>
+<div class="analytics-container">
+  <!-- Analytics Selection -->
+  <div class="analytics-form">
+    <h2 class="analytics-title">Аналітика</h2>
+    <div class="analytics-input-group">
+      <label for="analyticsType">Тип аналітики:</label>
+      <select id="analyticsType">
+        <option value="topic">За темою</option>
+        <option value="keyword">За ключовими словами</option>
+        <option value="source">За джерелом</option>
+      </select>
+    </div>
+    <div class="analytics-input-group" id="topicSelector" >
+      <label for="analyticsTopic">Виберіть тему:</label>
+      <select id="analyticsTopic" [(ngModel)]="selectedTopic">
+        <option value="Технології">Технології</option>
+        <option value="Політика">Політика</option>
+        <option value="Спорт">Спорт</option>
+        <option value="Здоров'я">Здоров'я</option>
+        <!-- Add more topics as needed -->
+      </select>
+    </div>
+    <button class="analytics-button" (click)="showAnalytics()">Переглянути аналітику</button>
+  </div>
+
+  <div *ngIf="topicAnalytics">
+    <!-- Analytics Results -->
+    <div class="analytics-results">
+      <!-- First Block: Big Number -->
+      <div class="analytics-block">
+        <h3 class="block-title">Кількість новин</h3>
+        <p class="big-number">{{ topicAnalytics.amountOfArticles }}</p>
+      </div>
+
+      <!-- Second Block: Popular Source Chart -->
+      <div class="analytics-block">
+        <h3 class="block-title">Найпопулярніші джерела</h3>
+        <div echarts [options]="sourcesChartOptions" class="demo-chart"></div>
+      </div>
+
+      <!-- Third Block: Popular Keywords Chart -->
+      <div class="analytics-block full-width">
+        <h3 class="block-title">Найпопулярніші ключові слова</h3>
+        <div echarts [options]="topKeywordsChartOptions" class="demo-chart"></div>
+      </div>
+    </div>
+  </div>
+</div>

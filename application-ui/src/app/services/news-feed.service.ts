@@ -13,6 +13,7 @@ export class NewsFeedService {
   }
 
   private readonly NEWS_FEED_API = "http://localhost:8081/news-feed";
+
   public getNewsFeedForPage(request: NewsFeedRequest): Observable<NewsFeed> {
     return this.http.post<NewsFeed>(this.NEWS_FEED_API, request);
   }

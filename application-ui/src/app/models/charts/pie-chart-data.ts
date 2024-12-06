@@ -1,11 +1,12 @@
 import {TopicsCount} from '../dto/topics-count';
+import {SourceCount} from '../analytics/source-count';
 
 export class PieChartData {
   name: any;
   value: any;
 
-  constructor(topicsCount: TopicsCount) {
-    this.name = topicsCount.topic;
-    this.value = topicsCount.count;
+  constructor(name: any, value: any) {
+    this.name = name
+    this.value = value
   }
 }

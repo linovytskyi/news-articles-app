@@ -21,9 +21,9 @@
           <div class="news-aggregatedArticle">
             <div class="news-title" (click)="navigateToArticlePage(article.id)">{{ article.title }}</div>
             <div class="news-topic">{{ article.topic }}</div>
-            <img src="{{article.pictureLink}}" alt="News Image">
+            <img src="{{article.pictureUrl}}" alt="News Image">
             <div class="news-meta">
-              <span>Date: {{ article.createdAt }}</span>
+              <span>Date: {{ article.postedAt }}</span>
               <span>Source: {{ article.source.name }}</span>
             </div>
             <p class="news-summary" *ngFor="let paragraph of getSummaryParagraphs(article)">{{ paragraph }}</p>
@@ -40,7 +40,7 @@
           <div class="sidebar-news" *ngFor="let shortArticle of article.topicArticles">
             <div class="news-title" (click)="navigateToArticlePage(shortArticle.id)">{{ shortArticle.title }}</div>
             <div class="news-meta">
-              <span>Date: {{ shortArticle.createdAt }}</span>
+              <span>Date: {{ shortArticle.postedAt }}</span>
               <span>Source: {{ shortArticle.source.name }}</span>
             </div>
           </div>

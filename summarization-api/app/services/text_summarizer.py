@@ -1,15 +1,9 @@
 import logging
 
-from sumy.summarizers.lsa import LsaSummarizer
-
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
+from sumy.summarizers.text_rank import TextRankSummarizer
 
-
-#LSA
-#KL-SUM
-#LexRank
-#TextRank
 class TextSummarizer:
 
     __MIN_AMOUNT_OF_SENTENCES = 3
@@ -18,7 +12,7 @@ class TextSummarizer:
 
     def __init__(self):
         self.__parser = PlaintextParser
-        self.__summarizer = LsaSummarizer()
+        self.__summarizer = TextRankSummarizer()
         self.logger = logging.getLogger(__name__)
 
     def summarize(self, text: str):

@@ -45,7 +45,7 @@ public class FeedArticleService {
 
     public List<ShortFeedArticle> findOlderShortFeedArticlesOnSameTopicFor(FeedArticle article, Integer amount) {
         String topic = article.getTopic();
-        LocalDateTime createdAtBefore = article.getCreatedAt().minusMinutes(30);
-        return shortFeedArticleRepository.findByTopicAndCreatedAtBeforeOrderByCreatedAtDesc(topic, createdAtBefore, PageRequest.of(0, amount));
+        LocalDateTime createdAtBefore = article.getPostedAt().minusMinutes(30);
+        return shortFeedArticleRepository.findByTopicAndPostedAtBeforeOrderByPostedAtDesc(topic, createdAtBefore, PageRequest.of(0, amount));
     }
 }

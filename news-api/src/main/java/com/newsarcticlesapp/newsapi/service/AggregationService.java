@@ -29,6 +29,8 @@ public class AggregationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AggregationService.class);
     private final ArticleRepository articleRepository;
 
+    private final List<String> LIST_OF_TOPICS_TO_GENERATE_TITLE = List.of("Війна", "Економіка", "Енергетика", "Політика", "Україна", "Світ");
+
     public AggregationService(ObjectMapper objectMapper,
                               ClassificationClient classificationClient,
                               SummarizationClient summarizationClient,
@@ -51,12 +53,11 @@ public class AggregationService {
             Article article = Article.createBaseArticleFromAggregated(aggregatedArticle);
             processArticleSource(aggregatedArticle.getSourceUrl(), article);
 
-            LOGGER.info("article 321 {}", article);
-
             Optional<Article> duplicateArticle = articleService.findArticleByOriginalTitleAndSource(article.getOriginalTitle(), article.getSource());
 
             if (duplicateArticle.isEmpty()) {
                 ArticleText text = new ArticleText(aggregatedArticle.getText());
+
                 processArticleClassification(text, article);
                 processArticleSummarization(text, article);
 
@@ -79,7 +80,10 @@ public class AggregationService {
 
     private void processArticleSummarization(ArticleText text, Article article) {
         SummarizationResponse response = summarizationClient.getSummarization(text);
-        article.setTitle(response.getTitle());
+
+        if (LIST_OF_TOPICS_TO_GENERATE_TITLE.contains(article.getTopic())) {
+            article.setTitle(response.getTitle());
+        }
         article.setSummary(response.getSummary());
     }
 

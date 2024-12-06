@@ -1,1 +1,128 @@
-<p>search works!</p>
+<div class="search-container">
+  <!-- Search Form -->
+  <div class="search-form">
+    <h2 class="search-title">Пошук новин</h2>
+
+    <div class="search-input-group">
+      <label for="searchText">Текст:</label>
+      <input
+        id="searchText"
+        style="height: 50px"
+        [(ngModel)]="searchRequest.text"
+        placeholder="Введіть текст для пошуку"
+      />
+    </div>
+
+    <div class="search-input-group">
+      <label for="searchTopic">Тема:</label>
+      <select id="searchTopic" [(ngModel)]="searchRequest.topic">
+        <option value="">Виберіть тему</option>
+        <option value="Технології">Технології</option>
+        <option value="Політика">Політика</option>
+        <option value="Спорт">Спорт</option>
+        <option value="Здоров'я">Здоров'я</option>
+      </select>
+    </div>
+
+    <div class="search-input-group">
+      <label for="searchKeywords">Ключові слова:</label>
+      <input
+        id="searchKeywords"
+        type="text"
+        [(ngModel)]="keywordsInput"
+        placeholder="Введіть ключове слово"
+      />
+      <div class="selected-keywords">
+        <span
+          *ngFor="let keyword of searchRequest.keywords"
+          class="keyword-block"
+        >
+          {{ keyword }}
+          <button class="remove" (click)="removeKeyword(keyword)">×</button>
+        </span>
+      </div>
+    </div>
+
+    <div class="search-input-group">
+      <label for="searchSource">Джерело:</label>
+      <select id="searchSource" [(ngModel)]="searchRequest.source">
+        <option value="">Виберіть джерело</option>
+        <option value="ТСН">ТСН</option>
+        <option value="УНІАН">УНІАН</option>
+      </select>
+    </div>
+
+    <div class="radio-wrapper-19">
+      <div class="radio-inputs-19">
+        <label>
+          <input
+            type="radio"
+            name="radio-examples"
+            [value]="DateSearchOption.DATE"
+            [(ngModel)]="dateSearchOption"
+          />
+          <span class="name">Пошук за датою</span>
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="radio-examples"
+            [value]="DateSearchOption.DATE_RANGE"
+            [(ngModel)]="dateSearchOption"
+          />
+          <span class="name">Пошук за діапазоном дат:</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="search-input-group" *ngIf="dateSearchOption === DateSearchOption.DATE; else dateRangeTemplate">
+      <label for="searchDate">Дата:</label>
+      <div class="date-range">
+        <input
+          type="date"
+          id="searchDate"
+          [(ngModel)]="searchRequest.searchDate"
+        />
+      </div>
+    </div>
+
+    <ng-template #dateRangeTemplate>
+      <div class="search-input-group">
+        <label for="dateRange">Діапазон дат:</label>
+        <div class="date-range">
+          <input
+            type="date"
+            id="startDate"
+            [(ngModel)]="searchRequest.startDate"
+          />
+          <span class="date-separator">—</span>
+          <input
+            type="date"
+            id="endDate"
+            [(ngModel)]="searchRequest.endDate"
+          />
+        </div>
+      </div>
+    </ng-template>
+
+    <button class="search-button" (click)="searchArticles()">Пошук</button>
+  </div>
+
+  <!-- Search Results -->
+  <div class="search-results" *ngIf="!!searchResults && searchResults.searchArticleList.length > 0">
+    <h2 class="results-title">Результати пошуку</h2>
+    <div class="news-list">
+      <div class="news-item" *ngFor="let result of searchResults.searchArticleList">
+        <img src="{{result.pictureUrl}}" alt="News Image" class="news-image" />
+        <div class="news-details">
+          <h3 class="news-title">{{ result.title }}</h3>
+          <p class="news-meta">
+            <span class="news-date">{{ result.postedAt }}</span>
+            <span class="news-date">{{ result.topic }}</span>
+            <span class="news-source">Джерело: {{ result.source.name }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

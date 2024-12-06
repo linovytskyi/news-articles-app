@@ -42,7 +42,7 @@ main {
 
 /* Content container for left, middle, and right sections */
 .content-container {
-  margin-top: 50px;
+  margin-top: 140px;
   display: flex;
   width: 100%;
   min-height: 100vh;
@@ -58,7 +58,7 @@ main {
 /* Fixed left sidebar */
 .left-sidebar {
   position: fixed;
-  top: 132px; /* Offset from top to avoid header overlap */
+  top: 217px; /* Offset from top to avoid header overlap */
   left: 0;
   width: 400px; /* Fixed width for the sidebar */
   padding: 0 15px 15px;
@@ -293,14 +293,16 @@ img {
   position: fixed;
   background-color: #333;
   color: #fff;
-  width: 100%;
   padding: 0 10px 10px;
+  border-top: 4px solid white;
 }
 
 .topic-selection-list {
   display: flex;
   justify-content: center;
   gap: 20px;
+  padding-top: 15px;
+  flex-wrap: wrap;
 }
 
 .topic-selection-item {
@@ -319,4 +321,44 @@ img {
 
 .topic-selection-item-selected {
   background: linear-gradient(90deg, #4b79a1, #283e51);
+}
+
+.inline-image {
+  display: inline;
+  width: 50px;
+  height: 50px;
+  vertical-align: middle; /* Adjust vertical alignment with surrounding text if needed */
+  cursor: pointer;
+}
+
+.search-form {
+  width: 700px;
+}
+
+.analytics-form {
+  width: 700px;
+}
+
+.analytics-block {
+  width: 100%;
+}
+
+input {
+  max-width: 98%
+}
+
+.search-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.analytics-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }

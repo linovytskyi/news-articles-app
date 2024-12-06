@@ -5,6 +5,7 @@ import com.newsarcticlesapp.newsapi.model.Source;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,4 +24,22 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     List<Map<String, Object>> findTopTopics(
             Pageable pageable
     );
+
+    @Query("SELECT a.source.name AS sourceName, COUNT(a.source.name) AS articleCount " +
+            "FROM Article a " +
+            "WHERE a.topic = :topic " +
+            "GROUP BY a.source.name " +
+            "ORDER BY articleCount DESC")
+    List<Map<String, Object>> findTopSourcesForTopic(
+            @Param("topic") String topic,
+            Pageable pageable
+    );
+
+    @Query("SELECT DISTINCT a.topic FROM Article a")
+    List<String> findAllTopics();
+
+    @Query("SELECT COUNT(a) " +
+            "FROM Article a " +
+            "WHERE a.topic = :topic")
+    long countArticlesByTopic(@Param("topic") String topic);
 }

@@ -10,9 +10,9 @@
           <div class="news-aggregatedArticle">
             <div class="news-title">{{ article.title }}</div>
             <div class="news-topic">{{ article.topic }}</div>
-            <img src="{{article.pictureLink}}" alt="News Image">
+            <img src="{{article.pictureUrl}}" alt="News Image">
             <div class="news-meta">
-              <span>Date: {{ article.createdAt }}</span>
+              <span>Date: {{ article.postedAt }}</span>
               <span>Source: {{ article.source.name }}</span>
             </div>
             <div class="radio-wrapper-19">
@@ -36,6 +36,9 @@
                   <span class="name">Підсумок</span>
                 </label>
               </div>
+              <div style="text-align: right">
+                <img class="inline-image" src="assets/images/bookmark.svg">
+              </div>
             </div>
             <p class="news-summary" *ngFor="let paragraph of getTextParagraphs(article)">{{ paragraph }}</p>
 
@@ -43,7 +46,7 @@
               <h3>Джерело:</h3>
               <a [href]="article.source.url">{{article.source.name}}</a>
               <br>
-              <a [href]="article.url">{{article.originalTitle}}</a>
+              <a [href]="article.originalUrl">{{article.originalTitle}}</a>
             </div>
 
             <div class="news-people" *ngIf="getFilteredArticleKeywordsByType(KeywordType.PERSON).length > 0">

@@ -1,6 +1,7 @@
 package com.newsarcticlesapp.newsapi.service;
 
 import com.newsarcticlesapp.newsapi.model.ArticleKeyword;
+import com.newsarcticlesapp.newsapi.model.analytics.KeywordCount;
 import com.newsarcticlesapp.newsapi.repository.ArticleKeywordRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ public class ArticleKeywordService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ArticleKeywordService.class);
     private static final Integer DEFAULT_AMOUNT_OF_KEYWORDS = 10;
     private static final String KEYWORD_KEY = "keyword";
+    private static final String KEYWORD_COUNT = "keywordCount";
 
     public ArticleKeywordService(ArticleKeywordRepository articleKeywordRepository) {
         this.articleKeywordRepository = articleKeywordRepository;
@@ -24,6 +26,10 @@ public class ArticleKeywordService {
 
     public List<String> getTopKeywords(Integer amount) {
         return getTopKeywordsForAmount(amount);
+    }
+
+    public List<KeywordCount> getTopKeywordsCount(String topic, Integer amount) {
+        return getTopKeywordsCountForTopicAndAmount(topic, amount);
     }
 
     public List<String> getTopKeywords(String topic, Integer amount) {
@@ -37,6 +43,15 @@ public class ArticleKeywordService {
         LOGGER.info("Getting top {} keywords for articles on all topics", amount);
         List<Map<String, Object>> listOfKeywordCountMaps = articleKeywordRepository.findTopKeywords( PageRequest.of(0, amount));
         return mapListOfKeywordsCountMapToKeywordList(listOfKeywordCountMaps);
+    }
+
+    private List<KeywordCount> getTopKeywordsCountForTopicAndAmount(String topic, Integer amount) {
+        if (amount == null) {
+            amount = DEFAULT_AMOUNT_OF_KEYWORDS;
+        }
+        LOGGER.info("Getting top {} keywords for articles on all topics", amount);
+        List<Map<String, Object>> listOfKeywordCountMaps = articleKeywordRepository.findTopKeywordsForTopic(topic, PageRequest.of(0, amount));
+        return mapListOfKeywordsCountMapToKeywordCountList(listOfKeywordCountMaps);
     }
 
     private List<String> getTopKeywordsForTopicAndAmount(String topic, Integer amount) {
@@ -69,6 +84,19 @@ public class ArticleKeywordService {
         return articleKeywords.stream()
                 .map(ArticleKeyword::getValue)
                 .collect(Collectors.toList());
+    }
+
+    private List<KeywordCount> mapListOfKeywordsCountMapToKeywordCountList(List<Map<String, Object>> listOfKeywordCountMaps) {
+        List<KeywordCount> keywordsCounts = new ArrayList<>();
+
+        for (Map<String, Object> keywordCountMap : listOfKeywordCountMaps) {
+            String keyword = (String) keywordCountMap.get(KEYWORD_KEY);
+            Long count = (Long) keywordCountMap.get(KEYWORD_COUNT);
+            keywordsCounts.add(new KeywordCount(keyword, count));
+        }
+
+        LOGGER.info("List of keywords counts {}", keywordsCounts);
+        return keywordsCounts;
     }
 
     public Set<ArticleKeyword> getArticleKeywords(Long articleId) {

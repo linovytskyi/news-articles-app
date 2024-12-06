@@ -32,4 +32,9 @@ public class ArticleController {
     public ResponseEntity<List<Article>> getAll() {
         return ResponseEntity.ok(articleService.findAllArticles());
     }
+
+    @GetMapping("/topics")
+    public ResponseEntity<List<String>> getAllArticleTopics() {
+        return ResponseEntity.ok(articleService.getAllArticleTopics());
+    }
 }

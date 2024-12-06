@@ -165,8 +165,8 @@ cython_debug/
 # compiled output
 dist/
 tmp/
-app/**/*.js
-app/**/*.js.map
+web/**/*.js
+web/**/*.js.map
 
 # dependencies
 node_modules/

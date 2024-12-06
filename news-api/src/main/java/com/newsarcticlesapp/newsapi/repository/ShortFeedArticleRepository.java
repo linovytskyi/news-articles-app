@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface ShortFeedArticleRepository extends JpaRepository<ShortFeedArticle, Long> {
-    Page<ShortFeedArticle> findAllByOrderByCreatedAtDesc(Pageable pageable);
+    Page<ShortFeedArticle> findAllByOrderByPostedAtDesc(Pageable pageable);
 
-    List<ShortFeedArticle> findByTopicAndCreatedAtBeforeOrderByCreatedAtDesc(String topic, LocalDateTime startDate, Pageable pageable);
+    List<ShortFeedArticle> findByTopicAndPostedAtBeforeOrderByPostedAtDesc(String topic, LocalDateTime startDate, Pageable pageable);
 }

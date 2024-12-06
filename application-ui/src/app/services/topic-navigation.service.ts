@@ -10,7 +10,24 @@ export class TopicNavigationService {
   public selectedTopic: string = null;
   public readonly RECENT_NEWS = 'Останні новини';
 
-  private topics: string[] = ['Останні новини', 'Війна', 'Україна']
+  private topics: string[] = ['Останні новини',
+    "Астрологія",
+    "Війна",
+    "Економіка",
+    "Енергетика",
+    "Зброя",
+    "Здоров`я",
+    "Зірки",
+    "Корисні статті",
+    "Наука",
+    "Погода",
+    "Політика",
+    "Різне",
+    "Світ",
+    "Спорт",
+    "Україна",
+    "Шоу-бізнес"
+  ]
 
   constructor(private router: Router) {
   }
@@ -33,7 +50,7 @@ export class TopicNavigationService {
 
   public isSelected(topic: string): boolean {
 
-    
+
     return this.selectedTopic === topic;
   }
 }

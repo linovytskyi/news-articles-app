@@ -4,8 +4,8 @@ from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
 
 sys.path.append('.')
-from app.database import Base
-from app.models.topic import Topic, TopicKeyword  # Import your models
+from web.database import Base
+from web.models.topic import Topic, TopicKeyword  # Import your models
 from config import Config
 
 config = context.config

@@ -154,7 +154,7 @@ export class NewsFeedComponent implements OnInit {
   }
 
   private buildRepresentationFromTopicsCount(topicsCount: TopicsCount): PieChartData {
-    return new PieChartData(topicsCount);
+    return new PieChartData(topicsCount.topic, topicsCount.count);
   }
 
   private buildInitialFeedRequest(): NewsFeedRequest {

@@ -1,4 +1,5 @@
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer, TrainingArguments
+import matplotlib.pyplot as plt
+from transformers import XLMRobertaTokenizerFast, XLMRobertaForSequenceClassification, TrainingArguments, Trainer
 from datasets import DatasetDict, Dataset
 import torch
 from functools import partial
@@ -9,7 +10,7 @@ import pandas as pd
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 def preprocess_data(examples, tokenizer, label2id):
-    inputs = tokenizer(examples['title'], examples['text'], max_length=512, truncation=True, padding="max_length")
+    inputs = tokenizer(examples['text'], max_length=512, truncation=True, padding="max_length")
     labels = [label2id[label] for label in examples['article_type']]
     inputs["labels"] = labels
     return inputs
@@ -21,7 +22,55 @@ def compute_metrics(pred):
     f1 = f1_score(labels, preds, average='weighted')
     return {"accuracy": acc, "f1": f1}
 
-# Основний блок
+def plot_metrics(trainer_state_log):
+    epochs = []
+    train_loss = []
+    eval_loss = []
+    accuracy = []
+    f1_scores = []
+
+    for log in trainer_state_log:
+        if 'epoch' in log:
+            if log['epoch'] not in epochs:  # Avoid duplicate entries for the same epoch
+                epochs.append(log['epoch'])
+        if 'loss' in log:
+            train_loss.append(log['loss'])
+        if 'eval_loss' in log:
+            eval_loss.append(log['eval_loss'])
+        if 'eval_accuracy' in log:
+            accuracy.append(log['eval_accuracy'])
+        if 'eval_f1' in log:
+            f1_scores.append(log['eval_f1'])
+
+    # Ensure lists are the same length by padding with None
+    max_length = len(epochs)
+    train_loss.extend([None] * (max_length - len(train_loss)))
+    eval_loss.extend([None] * (max_length - len(eval_loss)))
+    accuracy.extend([None] * (max_length - len(accuracy)))
+    f1_scores.extend([None] * (max_length - len(f1_scores)))
+
+    # Plot Training and Evaluation Loss
+    plt.figure(figsize=(10, 6))
+    plt.plot(epochs, train_loss, label="Training Loss", marker='o')
+    plt.plot(epochs, eval_loss, label="Evaluation Loss", marker='o')
+    plt.xlabel("Epochs")
+    plt.ylabel("Loss")
+    plt.title("Training and Evaluation Loss")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+    # Plot Accuracy and F1-score
+    plt.figure(figsize=(10, 6))
+    plt.plot(epochs, accuracy, label="Accuracy", marker='o')
+    plt.plot(epochs, f1_scores, label="F1 Score", marker='o')
+    plt.xlabel("Epochs")
+    plt.ylabel("Metrics")
+    plt.title("Accuracy and F1-score Over Epochs")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
 if __name__ == '__main__':
     df = pd.read_csv('../../data/processed/results.csv')
 
@@ -34,8 +83,8 @@ if __name__ == '__main__':
 
     model_name = 'xlm-roberta-base'
     num_labels = len(df['article_type'].unique())
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_labels).to(device)
+    tokenizer = XLMRobertaTokenizerFast.from_pretrained(model_name)
+    model = XLMRobertaForSequenceClassification.from_pretrained(model_name, num_labels=num_labels).to(device)
 
     label_list = df['article_type'].unique()
     label2id = {label: idx for idx, label in enumerate(label_list)}
@@ -47,26 +96,34 @@ if __name__ == '__main__':
     tokenized_val_dataset = dataset["test"].map(preprocess_with_tokenizer, batched=True)
 
     training_args = TrainingArguments(
-        output_dir="models/results",
+        output_dir="llm/results",
         evaluation_strategy="epoch",
-        learning_rate=2e-5,
-        per_device_train_batch_size=4,
-        per_device_eval_batch_size=4,
-        num_train_epochs=4,
-        max_steps=100_000,
+        learning_rate=5e-5,
+        per_device_train_batch_size=8,
+        per_device_eval_batch_size=8,
+        num_train_epochs=6,
         weight_decay=0.01,
         fp16=True,
+        warmup_steps=500,
+        save_strategy="epoch",
+        logging_dir="./logs",
+        logging_strategy="steps",
+        logging_steps=100,
         save_total_limit=2,
-        save_strategy="epoch"
+        load_best_model_at_end=True,
+        disable_tqdm=False,
+        logging_first_step=True
     )
+
 
     trainer = Trainer(
-        model=model,
-        args=training_args,
-        train_dataset=tokenized_train_dataset,
-        eval_dataset=tokenized_val_dataset,
-        tokenizer=tokenizer,
-        compute_metrics=compute_metrics,
-    )
+            model=model,
+            args=training_args,
+            train_dataset=tokenized_train_dataset,
+            eval_dataset=tokenized_val_dataset,
+            tokenizer=tokenizer,
+            compute_metrics=compute_metrics,
+        )
 
     trainer.train()
+    plot_metrics(trainer.state.log_history)

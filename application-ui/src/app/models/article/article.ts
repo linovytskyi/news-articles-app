@@ -9,9 +9,9 @@ export class Article {
   topic: string;
   text: string;
   summary: string;
-  createdAt: Date;
+  postedAt: Date;
   source: Source;
-  url: string;
-  pictureLink: string;
+  originalUrl: string;
+  pictureUrl: string;
   keywords: ArticleKeyword[];
 }

@@ -4,7 +4,7 @@ export class ShortFeedArticle {
   id: number;
   title: string;
   topic: string;
-  pictureLink: string;
-  createdAt: Date;
+  pictureUrl: string;
+  postedAt: Date;
   source: Source;
 }

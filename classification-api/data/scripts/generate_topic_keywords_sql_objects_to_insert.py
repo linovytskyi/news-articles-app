@@ -1,6 +1,6 @@
-from data.scripts.topic import Topic
+from data.model.topic import Topic
 
-topics = Topic.get_topic_objects_from_dataset('../processed/filtered_file.csv')
+topics = Topic.get_topic_objects_from_dataset('../processed/results.csv')
 
 elements = []
 

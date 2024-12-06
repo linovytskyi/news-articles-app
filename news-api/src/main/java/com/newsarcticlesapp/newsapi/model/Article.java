@@ -3,7 +3,6 @@ package com.newsarcticlesapp.newsapi.model;
 import com.newsarcticlesapp.newsapi.listener.model.AggregatedArticle;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -31,17 +30,18 @@ public class Article {
     @Lob
     private String summary;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column(name = "posted_at")
+    private LocalDateTime postedAt;
 
     @ManyToOne
     @JoinColumn(name = "source_id", nullable = false)
     private Source source;
 
-    private String url;
+    @Column(name = "original_url")
+    private String originalUrl;
 
-    @Column(name = "picture_link")
-    private String pictureLink;
+    @Column(name = "picture_url")
+    private String pictureUrl;
 
     @Transient
     private Set<ArticleKeyword> keywords = new HashSet<>();
@@ -49,10 +49,11 @@ public class Article {
     public static Article createBaseArticleFromAggregated(AggregatedArticle aggregatedArticle) {
         Article article = new Article();
         article.setOriginalTitle(aggregatedArticle.getTitle());
+        article.setTitle(aggregatedArticle.getTitle());
         article.setText(aggregatedArticle.getText());
-        article.setCreatedAt(aggregatedArticle.getDatetime());
-        article.setUrl(aggregatedArticle.getUrl());
-        article.setPictureLink(aggregatedArticle.getPictureLink());
+        article.setPostedAt(aggregatedArticle.getDatetime());
+        article.setOriginalUrl(aggregatedArticle.getUrl());
+        article.setPictureUrl(aggregatedArticle.getPictureLink());
         return article;
     }
 }

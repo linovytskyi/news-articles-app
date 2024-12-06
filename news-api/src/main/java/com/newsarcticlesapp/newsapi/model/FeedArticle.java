@@ -5,7 +5,6 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
@@ -16,10 +15,10 @@ public class FeedArticle {
     private Long id;
     private String title;
     private String topic;
-    @Column(name = "picture_link")
-    private String pictureLink;
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column(name = "picture_url")
+    private String pictureUrl;
+    @Column(name = "posted_at")
+    private LocalDateTime postedAt;
     @ManyToOne
     @JoinColumn(name = "source_id", nullable = false)
     private Source source;

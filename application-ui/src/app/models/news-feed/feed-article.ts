@@ -5,8 +5,8 @@ export class FeedArticle {
   id: number;
   title: string;
   topic: string;
-  pictureLink: string;
-  createdAt: string;
+  pictureUrl: string;
+  postedAt: string;
   source: Source;
   summary: string;
   topicArticles: ShortFeedArticle[]

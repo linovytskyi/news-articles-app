@@ -6,7 +6,8 @@ import {NgClass, NgForOf} from '@angular/common';
 export enum NavigationOptions {
   FEED="feed",
   SEARCH="search",
-  ANALYTICS="analytics"
+  ANALYTICS="analytics",
+  SAVED="saved"
 }
 
 @Component({

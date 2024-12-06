@@ -40,7 +40,7 @@ public class NewsFeedService {
             request.setKeywords(null);
         }
 
-        Pageable pageable = PageRequest.of(request.getPageNumber(), request.getPageSize(), Sort.by(Sort.Direction.DESC, "createdAt"));
+        Pageable pageable = PageRequest.of(request.getPageNumber(), request.getPageSize(), Sort.by(Sort.Direction.DESC, "postedAt"));
         Page<FeedArticle> feedArticlePage = feedArticleService.findMostRecentOnTopicWithKeywordsPaged(request.getTopic(), request.getKeywords(), pageable);
         return mapPagedFeedArticleToFeedArticleList(feedArticlePage);
     }

@@ -11,6 +11,7 @@ import {NewsFeedComponent} from './components/news-feed/news-feed.component';
 import {NgxEchartsDirective, NgxEchartsModule} from 'ngx-echarts';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import {NgOptimizedImage} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -21,15 +22,16 @@ import {HttpClientModule} from '@angular/common/http';
     AnalyticsComponent,
     TopicSelectionComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    NgxEchartsModule.forRoot({
-      echarts: () => import('echarts')
-    })
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule,
+        NgxEchartsModule.forRoot({
+            echarts: () => import('echarts')
+        }),
+        NgOptimizedImage
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -19,7 +19,7 @@ public interface FeedArticleRepository extends JpaRepository<FeedArticle, Long> 
             "    (SELECT COUNT(DISTINCT ak1.value) " +
             "     FROM ArticleKeyword ak1 " +
             "     WHERE ak1.articleId = fa.id AND ak1.value IN :keywords) = :keywordCount) " +
-            "ORDER BY fa.createdAt DESC")
+            "ORDER BY fa.postedAt DESC")
     Page<FeedArticle> findAllByTopicAndWithKeywords(
             @Param("topic") String topic,
             @Param("keywords") Set<String> keywords,

@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import {EChartsOption} from "echarts";
 import {PieChartData} from '../models/charts/pie-chart-data';
+import {TopicAnalytics} from '../models/analytics/topic-analytics';
 
 
 @Injectable({
@@ -36,39 +37,54 @@ export class EchartsAdapterService {
     };
   }
 
-  public createOptionsForSimpleChart(legendName: string[], xAxisData: any[], portfolioIncome: number[], portfolioCost: number[]): EChartsOption {
+  public createOptionsForKeywordsChart(topicAnalytics: TopicAnalytics): EChartsOption {
     return {
       legend: {
-        data: ['Дохід від інвестування', 'Вартість портфелю'],
+        data: ['Популярність ключових слів'], // Legend for keywords
         align: 'auto',
         bottom: 10,
         selectorPosition: 'end'
       },
-      tooltip: {},
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow' // Helps highlight bars
+        }
+      },
       xAxis: {
-        data: xAxisData,
+        type: 'category',
+        data: topicAnalytics.mostPopularKeywords.map(k => k.keyword), // Keywords as X-axis labels
         silent: false,
         splitLine: {
           show: false,
         },
+        name: 'Ключові слова',
+        nameLocation: 'middle',
+        nameGap: 30
       },
-      yAxis: {},
+      yAxis: {
+        type: 'value',
+        name: 'Кількість',
+        nameLocation: 'middle',
+        nameGap: 40
+      },
       series: [
         {
-          name: 'Дохід від інвестування',
+          name: 'Популярність ключових слів', // Series name
           type: 'bar',
-          data: portfolioIncome,
-          animationDelay: idx => idx * 10,
-        },
-        {
-          name: 'Вартість портфелю',
-          type: 'bar',
-          data: portfolioCost,
-          animationDelay: idx => idx * 10 + 100,
-        },
+          data: topicAnalytics.mostPopularKeywords.map(k => k.count), // Counts as bar heights
+          animationDelay: idx => idx * 10, // Delay for animation
+          itemStyle: {
+            color: '#5470C6' // Customize bar color
+          },
+          label: {
+            show: true,
+            position: 'top' // Display values above bars
+          }
+        }
       ],
       animationEasing: 'elasticOut',
-      animationDelayUpdate: idx => idx * 5,
+      animationDelayUpdate: idx => idx * 5
     };
   }
 
