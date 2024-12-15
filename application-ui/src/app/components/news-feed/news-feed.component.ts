@@ -12,6 +12,7 @@ import {TopicsCount} from '../../models/dto/topics-count';
 import {PieChartData} from '../../models/charts/pie-chart-data';
 import {EchartsAdapterService} from '../../services/echarts-adapter.service';
 import {EChartsOption} from 'echarts';
+import {SourceService} from '../../services/source.service';
 
 @Component({
   selector: 'app-news-feed',
@@ -25,6 +26,7 @@ export class NewsFeedComponent implements OnInit {
   public topKeywordRequest: TopKeywordRequest;
   public topKeywords: string[]
   public selectedTopic: string;
+  public isLoading: boolean;
 
   public topTopicsChartOption: EChartsOption;
 
@@ -37,6 +39,7 @@ export class NewsFeedComponent implements OnInit {
               private topicService: TopicService,
               private echartsService: EchartsAdapterService,
               private textUtilService: TextUtilService,
+              private sourceService: SourceService,
               private router: Router,
               private activatedRoute: ActivatedRoute) {
   }
@@ -49,6 +52,8 @@ export class NewsFeedComponent implements OnInit {
     this.uploadNewsFeed();
     this.loadTopKeywords();
     this.loadTopTopics();
+    this.initTopics();
+    this.initSource();
   }
 
   public getSummaryParagraphs(article: FeedArticle): string[] {
@@ -57,12 +62,13 @@ export class NewsFeedComponent implements OnInit {
 
   @HostListener('window:scroll', [])
   public onScroll(): void {
-    if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 200) {
+    if (((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 200) && !this.isLoading) {
       this.uploadNewsFeed();
     }
   }
 
   private uploadNewsFeed() {
+    this.isLoading = true;
     this.newsFeedService.getNewsFeedForPage(this.newsFeedRequest).subscribe(feed => {
       this.handleNewsFeedPageResponse(feed);
     })
@@ -73,16 +79,18 @@ export class NewsFeedComponent implements OnInit {
     this.newsFeedRequest.pageNumber = 0;
     this.scrollToTop();
     this.uploadNewsFeed();
-    console.log("reuploaded")
   }
 
   private handleNewsFeedPageResponse(feed: NewsFeed) {
+    this.isLoading = false;
     if (this.newsFeed) {
       this.mergeNewsFeedPages(feed);
     } else {
       this.newsFeed = feed;
     }
-    this.newsFeedRequest.pageNumber = feed.pageNumber + 1;
+    if (feed.feedArticles.length > 0) {
+      this.newsFeedRequest.pageNumber = feed.pageNumber + 1;
+    }
   }
 
   public mergeNewsFeedPages(newsFeed: NewsFeed) {
@@ -170,5 +178,22 @@ export class NewsFeedComponent implements OnInit {
     const request = new TopKeywordRequest()
     request.amount = this.AMOUNT_OF_KEYWORDS_ON_LEFT_SIDEBAR;
     return request;
+  }
+
+  private initTopics() {
+    if (!this.topicService.getSavedTopics()) {
+      this.topicService.getAllTopics().subscribe(topics => {
+        this.topicService.setSavedTopics(topics);
+      })
+    }
+  }
+
+  private initSource() {
+    console.log('testr')
+    if (!this.sourceService.getSavedSources()) {
+      this.sourceService.getAllSource().subscribe(sources => {
+        this.sourceService.setSavedSources(sources);
+      })
+    }
   }
 }

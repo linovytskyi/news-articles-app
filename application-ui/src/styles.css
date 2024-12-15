@@ -117,6 +117,7 @@ main {
 
 .news-item {
   display: flex;
+
 }
 
 /* News article styling */
@@ -336,11 +337,7 @@ img {
 }
 
 .analytics-form {
-  width: 700px;
-}
-
-.analytics-block {
-  width: 100%;
+  width: 1200px;
 }
 
 input {
@@ -352,7 +349,6 @@ input {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
 }
 
 .analytics-container {
@@ -360,5 +356,4 @@ input {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
 }

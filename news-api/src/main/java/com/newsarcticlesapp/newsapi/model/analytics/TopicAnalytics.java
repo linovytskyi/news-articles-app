@@ -8,6 +8,6 @@ import java.util.List;
 public class TopicAnalytics {
     private String topic;
     private Long amountOfArticles;
-    private List<SourceCount> mostPopularSources;
-    private List<KeywordCount> mostPopularKeywords;
+    private List<SourceCount> sourceCounts;
+    private List<KeywordCount> keywordCounts;
 }

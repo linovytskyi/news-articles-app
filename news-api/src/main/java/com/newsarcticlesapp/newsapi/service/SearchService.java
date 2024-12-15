@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -25,7 +27,14 @@ public class SearchService {
     }
 
     public SearchResponse searchArticles(SearchRequest request) {
-        Set<String> keywords = request.getKeywords();
+
+        String text = request.getText();
+
+        if (request.getText() == null || request.getText().trim().isEmpty()) {
+            text = null;
+        }
+
+        List<String> keywords = request.getKeywords();
         if (keywords == null || keywords.isEmpty()) {
             keywords = null;
         }
@@ -35,17 +44,35 @@ public class SearchService {
             source = null;
         }
 
-        Pageable pageable = PageRequest.of(request.getPageNumber(), request.getPageSize(), Sort.by(Sort.Direction.DESC, "postedAt"));
+        Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC, "postedAt"));
 
-        System.out.println(request);
-        System.out.println(source);
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
 
-        Page<SearchArticle> searchArticlePage = this.searchArticleRepository.searchArticlesByTopicTextAndSource(
-                request.getText(),
+        if (request.getSearchDate() != null) {
+            startDate = request.getSearchDate().atStartOfDay();
+            endDate = request.getSearchDate().atTime(LocalTime.MAX);
+        }
+
+        if (request.getStartDate() != null) {
+            startDate = request.getStartDate().atTime(LocalTime.MIN);
+        }
+
+        if (request.getEndDate() != null) {
+            endDate = request.getEndDate().atTime(LocalTime.MAX);
+        }
+
+        Page<SearchArticle> searchArticlePage = this.searchArticleRepository.searchArticles(
+                text,
                 request.getTopic(),
+                keywords,
                 source,
+                startDate,
+                endDate,
                 pageable
         );
+
+        System.out.println("total: " + searchArticlePage.getTotalPages());
 
         return new SearchResponse(searchArticlePage.getContent(), searchArticlePage.getNumber(), searchArticlePage.getSize());
     }

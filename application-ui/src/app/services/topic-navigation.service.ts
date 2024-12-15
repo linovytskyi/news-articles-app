@@ -1,5 +1,7 @@
-import {Injectable, Input} from '@angular/core';
+import {Injectable, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {LocalStorageService} from './local-storage.service';
+import {TopicService} from './topic.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,38 +12,8 @@ export class TopicNavigationService {
   public selectedTopic: string = null;
   public readonly RECENT_NEWS = 'Останні новини';
 
-  private topics: string[] = ['Останні новини',
-    "Астрологія",
-    "Війна",
-    "Економіка",
-    "Енергетика",
-    "Зброя",
-    "Здоров`я",
-    "Зірки",
-    "Корисні статті",
-    "Наука",
-    "Погода",
-    "Політика",
-    "Різне",
-    "Світ",
-    "Спорт",
-    "Україна",
-    "Шоу-бізнес"
-  ]
-
-  constructor(private router: Router) {
-  }
-
-  public getTopics() {
-    return this.topics;
-  }
-
   public getSelectedTopic() {
     return this.selectedTopic;
-  }
-
-  public selectedTopicIsRecentNews(): boolean {
-    return this.selectedTopic === null;
   }
 
   public selectTopic(topic: string): void {
@@ -49,8 +21,6 @@ export class TopicNavigationService {
   }
 
   public isSelected(topic: string): boolean {
-
-
     return this.selectedTopic === topic;
   }
 }

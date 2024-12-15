@@ -4,6 +4,9 @@ import {ActivatedRoute} from '@angular/router';
 import {Article} from '../../../models/article/article';
 import {KeywordType} from '../../../models/article/keyword-type';
 import {TextUtilService} from '../../../services/text-util.service';
+import {UserService} from '../../../services/user.service';
+import {ToastService} from '../../../services/toast.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 export enum TextViewOption {
   FULL_TEXT,
@@ -24,6 +27,8 @@ export class ArticlePageComponent implements OnInit {
 
   constructor(private articleService: ArticleService,
               private textUtilService: TextUtilService,
+              private userService: UserService,
+              private toasterService: ToastService,
               private router: ActivatedRoute) {
   }
 
@@ -45,6 +50,22 @@ export class ArticlePageComponent implements OnInit {
 
   public getFilteredArticleKeywordsByType(type: KeywordType) {
     return this.article.keywords.filter(keyword => keyword.type === type);
+  }
+
+  public saveArticle() {
+    this.userService.saveArticle(this.article.id).subscribe(
+      res => {
+        this.toasterService.show('Новина була додана до списку "Збережене"', 'success');
+      }, error => {
+        this.handleErrorSave(error);
+      }
+    )
+  }
+
+  private handleErrorSave(error: HttpErrorResponse): void {
+    if (error.status === 409) {
+      this.toasterService.show('Новина вже додана до списку "Збережене"', 'warning');
+    }
   }
 
   protected readonly KeywordType = KeywordType;

@@ -6,7 +6,7 @@ from sumy.summarizers.text_rank import TextRankSummarizer
 
 class TextSummarizer:
 
-    __MIN_AMOUNT_OF_SENTENCES = 3
+    __MIN_AMOUNT_OF_SENTENCES = 2
     __MAX_AMOUNT_OF_SENTENCES = 7
     __PERCENT_OF_INFORMATION_TO_SUMMARIZE_TO = 40
 
@@ -22,6 +22,9 @@ class TextSummarizer:
         self.logger.info(f"Total amount of sentences in text: {total_amount_of_sentences}")
 
         amount_of_sentences_to_make_summary_from = int(total_amount_of_sentences * (self.__PERCENT_OF_INFORMATION_TO_SUMMARIZE_TO / 100))
+
+        if amount_of_sentences_to_make_summary_from < self.__MIN_AMOUNT_OF_SENTENCES:
+            amount_of_sentences_to_make_summary_from = self.__MIN_AMOUNT_OF_SENTENCES
 
         if amount_of_sentences_to_make_summary_from > self.__MAX_AMOUNT_OF_SENTENCES:
             amount_of_sentences_to_make_summary_from = self.__MAX_AMOUNT_OF_SENTENCES

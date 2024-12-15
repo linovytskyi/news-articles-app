@@ -1,0 +1,14 @@
+<div class="saved-articles-container">
+  <h1 class="saved-articles-title">Ваші збережені новини:</h1>
+  <div class="saved-articles-list">
+    <div class="saved-article-block" *ngFor="let article of savedArticles">
+      <img class="saved-article-image" [src]="article.pictureUrl"/>
+      <div class="saved-article-content">
+        <h2 class="saved-article-title" (click)="navigateToArticle(article.id)">{{ article.title }}</h2>
+        <p class="saved-article-source">{{ article.source.name }}</p>
+        <p class="saved-article-date">{{ article.postedAt }}</p>
+        <button class="saved-article-delete-button" (click)="deleteArticle(article.id)">Видалити</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TopicNavigationService} from '../../../services/topic-navigation.service';
+import {TopicService} from '../../../services/topic.service';
 
 @Component({
   selector: 'app-topic-selection',
@@ -15,12 +16,23 @@ export class TopicSelectionComponent implements OnInit {
   @Output()
   public topicSelectedEmitter = new EventEmitter<string>;
 
-  constructor(private topicSelectionService: TopicNavigationService) {
+  constructor(private topicService: TopicService,
+              private topicSelectionService: TopicNavigationService) {
   }
 
   public ngOnInit(): void {
-    this.topics = this.topicSelectionService.getTopics();
-    this.selectTopic(this.selectedTopic);
+    let topics = this.topicService.getSavedTopics();
+
+    if (!topics) {
+      this.topicService.getAllTopics().subscribe(topics => {
+        this.topics = topics;
+        this.topicService.setSavedTopics(topics);
+        this.selectTopic(this.selectedTopic);
+      })
+    } else {
+      this.topics = topics;
+      this.selectTopic(this.selectedTopic);
+    }
   }
 
   public selectTopic(topic: string) {

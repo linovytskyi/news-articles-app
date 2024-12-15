@@ -2,6 +2,8 @@ import {Injectable} from "@angular/core";
 import {EChartsOption} from "echarts";
 import {PieChartData} from '../models/charts/pie-chart-data';
 import {TopicAnalytics} from '../models/analytics/topic-analytics';
+import {SourceAnalytics} from '../models/analytics/source-analytics';
+import {GeneralAnalytics} from '../models/analytics/general-analytics';
 
 
 @Injectable({
@@ -37,7 +39,7 @@ export class EchartsAdapterService {
     };
   }
 
-  public createOptionsForKeywordsChart(topicAnalytics: TopicAnalytics): EChartsOption {
+  public createOptionsForKeywordsChart(topicAnalytics: TopicAnalytics | SourceAnalytics | GeneralAnalytics): EChartsOption {
     return {
       legend: {
         data: ['Популярність ключових слів'], // Legend for keywords
@@ -53,7 +55,7 @@ export class EchartsAdapterService {
       },
       xAxis: {
         type: 'category',
-        data: topicAnalytics.mostPopularKeywords.map(k => k.keyword), // Keywords as X-axis labels
+        data: topicAnalytics.keywordCounts.map(k => k.keyword), // Keywords as X-axis labels
         silent: false,
         splitLine: {
           show: false,
@@ -72,7 +74,7 @@ export class EchartsAdapterService {
         {
           name: 'Популярність ключових слів', // Series name
           type: 'bar',
-          data: topicAnalytics.mostPopularKeywords.map(k => k.count), // Counts as bar heights
+          data: topicAnalytics.keywordCounts.map(k => k.count), // Counts as bar heights
           animationDelay: idx => idx * 10, // Delay for animation
           itemStyle: {
             color: '#5470C6' // Customize bar color

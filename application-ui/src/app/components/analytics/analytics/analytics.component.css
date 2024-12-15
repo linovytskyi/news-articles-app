@@ -26,6 +26,14 @@
   margin-bottom: 5px;
 }
 
+.analytics-input-group input{
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
 .analytics-input-group select {
   width: 100%;
   padding: 10px;
@@ -49,6 +57,23 @@
 
 .analytics-button:hover {
   background-color: #0056b3;
+}
+
+.analytics-button:disabled {
+  background-color: #cccccc; /* Light gray background */
+  color: #666666; /* Dark gray text */
+  cursor: not-allowed; /* Show a not-allowed cursor */
+  pointer-events: none; /* Prevent hover or click effects */
+  opacity: 0.6; /* Slightly transparent */
+}
+
+
+.analytics-button:hover:disabled {
+  background-color: #cccccc; /* Light gray background */
+  color: #666666; /* Dark gray text */
+  cursor: not-allowed; /* Show a not-allowed cursor */
+  pointer-events: none; /* Prevent hover or click effects */
+  opacity: 0.6; /* Slightly transparent */
 }
 
 .analytics-results {

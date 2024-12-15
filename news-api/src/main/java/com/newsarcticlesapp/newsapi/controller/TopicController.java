@@ -1,6 +1,6 @@
 package com.newsarcticlesapp.newsapi.controller;
 
-import com.newsarcticlesapp.newsapi.model.dto.TopicsCount;
+import com.newsarcticlesapp.newsapi.model.analytics.TopicsCount;
 import com.newsarcticlesapp.newsapi.service.TopicService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +18,11 @@ public class TopicController {
 
     public TopicController(TopicService topicService) {
         this.topicService = topicService;
+    }
+
+    @GetMapping
+    public List<String> getTopics() {
+        return topicService.getAllTopics();
     }
 
     @GetMapping("/top")

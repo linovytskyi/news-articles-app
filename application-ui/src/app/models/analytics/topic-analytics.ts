@@ -4,6 +4,6 @@ import {KeywordCount} from './keyword-count';
 export class TopicAnalytics {
   topic: string;
   amountOfArticles: number;
-  mostPopularSources: SourceCount[]
-  mostPopularKeywords: KeywordCount[]
+  sourceCounts: SourceCount[];
+  keywordCounts: KeywordCount[];
 }

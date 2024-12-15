@@ -10,8 +10,12 @@ import {TopicSelectionComponent} from './components/topic-selection/topic-select
 import {NewsFeedComponent} from './components/news-feed/news-feed.component';
 import {NgxEchartsDirective, NgxEchartsModule} from 'ngx-echarts';
 import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgOptimizedImage} from "@angular/common";
+import {AuthPageComponent} from './components/auth/auth-page.component';
+import {AuthInterceptor} from './interceptors/auth.interceptor';
+import {SavedArticlesComponent} from './components/article/saved-articles/saved-articles.component';
+import { ToastComponent } from './components/toast/toast.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +24,10 @@ import {NgOptimizedImage} from "@angular/common";
     ArticlePageComponent,
     SearchComponent,
     AnalyticsComponent,
-    TopicSelectionComponent
+    TopicSelectionComponent,
+    AuthPageComponent,
+    SavedArticlesComponent,
+    ToastComponent
   ],
     imports: [
         BrowserModule,
@@ -32,7 +39,11 @@ import {NgOptimizedImage} from "@angular/common";
         }),
         NgOptimizedImage
     ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

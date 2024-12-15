@@ -1,0 +1,428 @@
+/* Global styles */
+body {
+  font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  /* Remove overflow: hidden to allow scrolling */
+}
+
+/* Sticky header */
+header {
+  position: sticky;
+  top: 0;
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px;
+  text-align: center;
+  z-index: 1000; /* Ensures the header stays on top */
+}
+
+/* Navigation styling */
+nav {
+  margin: 10px 0;
+}
+
+/* Main container */
+main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header-navigation {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  justify-content: center;
+}
+
+/* Content container for left, middle, and right sections */
+.content-container {
+  margin-top: 140px;
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Styling for left, middle, and right sections */
+.left-sidebar, .middle, .right {
+  background-color: #f4f4f4;
+  padding: 15px;
+  border: 1px solid #ccc;
+}
+
+/* Fixed left sidebar */
+.left-sidebar {
+  position: fixed;
+  top: 217px; /* Offset from top to avoid header overlap */
+  left: 0;
+  width: 400px; /* Fixed width for the sidebar */
+  padding: 0 15px 15px;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  overflow-y: auto; /* Enables scrolling within the sidebar if needed */
+}
+
+/* Sidebar content */
+.left-sidebar ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.left-sidebar ul li {
+  margin-bottom: 0;
+}
+
+.left-sidebar ul li a {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #007BFF;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 20px;
+  font-size: 0.9em;
+}
+
+.left-sidebar ul li a:hover {
+  background-color: #0056b3;
+}
+
+/* Middle content - accounts for the width of the left sidebar */
+.middle {
+  flex: 1; /* Fills remaining space between left and right */
+  margin-left: 432px; /* Creates space for the fixed left sidebar */
+  padding: 15px;
+}
+
+/* Right sidebar - not fixed */
+.right {
+  width: 400px; /* Same width as left sidebar */
+  padding: 5px 15px 15px;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  /* No fixed position */
+}
+
+.news-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.news-item {
+  display: flex;
+}
+
+/* News article styling */
+.news-article {
+  margin-bottom: 20px;
+}
+
+.news-title {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.news-topic {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #666666;
+}
+
+.news-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9em;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.news-summary {
+  line-height: 40px;
+  font-size: 20px;
+  font-weight: 520;
+}
+
+/* Image styling for news articles */
+.news-article img {
+  display: block;
+  margin: 0 auto 10px;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Sidebar news styling */
+.sidebar-news {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+
+.sidebar-news .news-title {
+  font-size: 1.1em;
+  margin-bottom: 5px;
+}
+
+.sidebar-news .news-meta {
+  font-size: 0.85em;
+  color: #666;
+}
+
+/* General image styling */
+img {
+  display: block;
+  margin: 0 auto 10px;
+  width: 100%; /* Ensures the image scales to fit the container's width */
+  max-height: 500px; /* Set a maximum height, adjust as needed */
+  object-fit: cover; /* Crops the image to fill the area while keeping the aspect ratio */
+}
+
+.radio-inputs-19 {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 0.5rem;
+  background-color: #E0E0E0; /* Light gray background */
+  box-sizing: border-box;
+  box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 0.25rem;
+  width: 250px;
+  font-size: 14px;
+}
+
+.radio-inputs-19 label {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.radio-inputs-19 label input {
+  display: none;
+}
+
+.radio-inputs-19 label .name {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border: none;
+  padding: 0.5rem 0;
+  color: #000000; /* Black text */
+  transition: all 0.15s ease-in-out;
+}
+
+.radio-inputs-19 label input:checked + .name {
+  background-color: #A9A9A9; /* Dark gray when selected */
+  font-weight: 600;
+  color: black; /* White text when selected */
+}
+
+.header-name {
+  font-size: 35px;
+  padding-top: 10px;
+  padding-right: 30px;
+  cursor: pointer;
+}
+
+.keywords-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.keyword-item {
+  padding: 10px 15px;
+  background-color: #0056b3;
+  font-weight: bold;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.keyword-item.selected {
+  background-color: #ff6f61; /* Example selected background color */
+  color: #ffffff; /* Example selected text color */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Optional effect */
+  border: 2px solid #ffffff; /* Optional border */
+}
+
+.keyword-item:hover {
+  background-color: #004494; /* Darker shade of blue */
+  color: #f0f0f0; /* Slightly lighter text color */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.navigation-selection {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-weight: normal;
+}
+
+.navigation-item {
+  font-size: 22px;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 20px;
+  transition: background-color 0.7s ease;
+}
+
+.navigation-item:hover {
+  background: linear-gradient(90deg, #4b79a1, #283e51);
+}
+
+.navigation-item-selected {
+  background: linear-gradient(90deg, #4b79a1, #283e51);
+}
+
+.topic-selection {
+  position: fixed;
+  background-color: #333;
+  color: #fff;
+  padding: 0 10px 10px;
+  border-top: 4px solid white;
+}
+
+.topic-selection-list {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding-top: 15px;
+  flex-wrap: wrap;
+}
+
+.topic-selection-item {
+  font-size: 22px;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 20px;
+  transition: background-color 0.7s ease;
+}
+
+.topic-selection-item:hover {
+  background: linear-gradient(90deg, #4b79a1, #283e51);
+}
+
+.topic-selection-item-selected {
+  background: linear-gradient(90deg, #4b79a1, #283e51);
+}
+
+.inline-image {
+  display: inline;
+  width: 50px;
+  height: 50px;
+  vertical-align: middle; /* Adjust vertical alignment with surrounding text if needed */
+  cursor: pointer;
+}
+
+
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+.auth-card {
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  text-align: center;
+  border: 1px solid #ccc;
+}
+
+.auth-title {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.auth-input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.auth-input-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.auth-input-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.auth-button {
+  width: 100%;
+  padding: 10px 15px;
+  background: linear-gradient(90deg, #4b79a1, #283e51);
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-button:disabled {
+  background: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.auth-button:disabled:hover {
+  background: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.auth-button:hover {
+  background: linear-gradient(90deg, #283e51, #4b79a1);
+}
+
+.auth-footer {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #333;
+}
+
+.auth-link {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  color: red;
+  font-size: 16px;
+  font-weight: bold;
+}

@@ -1,0 +1,97 @@
+.saved-articles-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Page title */
+.saved-articles-title {
+  font-size: 2em;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+/* List of saved articles */
+.saved-articles-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Individual saved article block */
+.saved-article-block {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.saved-article-block:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Article image */
+.saved-article-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Article content */
+.saved-article-content {
+  padding: 15px;
+  text-align: center;
+}
+
+.saved-article-title {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  color: #007BFF;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.saved-article-title:hover {
+  color: #0056b3;
+}
+
+.saved-article-source {
+  font-size: 0.9em;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.saved-article-date {
+  font-size: 0.8em;
+  color: #777;
+  margin-bottom: 10px;
+}
+
+/* Delete button */
+.saved-article-delete-button {
+  background-color: #FF6F61;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.saved-article-delete-button:hover {
+  background-color: #d9534f;
+}

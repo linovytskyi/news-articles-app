@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
 import {AppModule} from './app.module';
 import {NgClass, NgForOf} from '@angular/common';
+import {AuthService} from './services/auth.service';
+import {LocalStorageService} from './services/local-storage.service';
 
 export enum NavigationOptions {
   FEED="feed",
@@ -20,7 +22,9 @@ export class AppComponent implements OnInit {
   title = 'application-ui';
   selectedNavigation: string;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private authService: AuthService,
+              private localStorage: LocalStorageService) {
   }
 
   public ngOnInit(): void {
@@ -34,6 +38,15 @@ export class AppComponent implements OnInit {
 
   public isSelected(option: NavigationOptions) {
     return this.selectedNavigation === option;
+  }
+
+  public isUserLoggedIn(): boolean {
+    return !!this.localStorage.getAuthToken();
+  }
+
+  public logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/auth']);
   }
 
   protected readonly NavigationOptions = NavigationOptions;

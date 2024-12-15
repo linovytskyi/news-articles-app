@@ -1,47 +1,132 @@
 <div class="analytics-container">
-  <!-- Analytics Selection -->
   <div class="analytics-form">
     <h2 class="analytics-title">Аналітика</h2>
     <div class="analytics-input-group">
       <label for="analyticsType">Тип аналітики:</label>
-      <select id="analyticsType">
-        <option value="topic">За темою</option>
-        <option value="keyword">За ключовими словами</option>
-        <option value="source">За джерелом</option>
+      <select id="analyticsType" [(ngModel)]="selectedAnalyticsOption" (ngModelChange)="handleAnalyticsOptionChange()">
+        <option [value]="AnalyticsOptions.GENERAL">Загальна</option>
+        <option [value]="AnalyticsOptions.TOPIC">За темою</option>
+        <option [value]="AnalyticsOptions.KEYWORD">За ключовими словами</option>
+        <option [value]="AnalyticsOptions.SOURCE">За джерелом</option>
       </select>
     </div>
-    <div class="analytics-input-group" id="topicSelector" >
-      <label for="analyticsTopic">Виберіть тему:</label>
-      <select id="analyticsTopic" [(ngModel)]="selectedTopic">
-        <option value="Технології">Технології</option>
-        <option value="Політика">Політика</option>
-        <option value="Спорт">Спорт</option>
-        <option value="Здоров'я">Здоров'я</option>
-        <!-- Add more topics as needed -->
-      </select>
+
+    <div *ngIf="selectedAnalyticsOption === AnalyticsOptions.GENERAL">
+      <button class="analytics-button" (click)="showGeneralAnalytics()" [disabled]="shouldSubmitButtonBeDisabled()">Переглянути аналітику</button>
+
+      <div *ngIf="generalAnalytics">
+        <div class="analytics-results">
+          <div class="analytics-block full-width">
+            <h3 class="block-title">Кількість новин</h3>
+            <p class="big-number">{{ generalAnalytics.amountOfArticles }}</p>
+          </div>
+
+
+          <div class="analytics-block full-width">
+            <h3 class="block-title">Найпопулярніші теми</h3>
+            <div echarts [options]="topicsChartOptions" class="demo-chart"></div>
+          </div>
+
+          <div class="analytics-block full-width">
+            <h3 class="block-title">Найпопулярніші джерела</h3>
+            <div echarts [options]="sourcesChartOptions" class="demo-chart"></div>
+          </div>
+
+          <div class="analytics-block full-width">
+            <h3 class="block-title">Найпопулярніші ключові слова</h3>
+            <div echarts [options]="topKeywordsChartOptions" class="demo-chart"></div>
+          </div>
+
+        </div>
+      </div>
     </div>
-    <button class="analytics-button" (click)="showAnalytics()">Переглянути аналітику</button>
-  </div>
 
-  <div *ngIf="topicAnalytics">
-    <!-- Analytics Results -->
-    <div class="analytics-results">
-      <!-- First Block: Big Number -->
-      <div class="analytics-block">
-        <h3 class="block-title">Кількість новин</h3>
-        <p class="big-number">{{ topicAnalytics.amountOfArticles }}</p>
+    <div *ngIf="selectedAnalyticsOption === AnalyticsOptions.TOPIC">
+      <div class="analytics-input-group" id="topicSelector">
+        <label for="analyticsTopic">Виберіть тему:</label>
+        <select id="analyticsTopic" [(ngModel)]="selectedTopic">
+          <option *ngFor="let topic of topics" value="{{topic}}">{{ topic }}</option>
+        </select>
       </div>
+      <button class="analytics-button" (click)="showTopicAnalytics()" [disabled]="shouldSubmitButtonBeDisabled()">Переглянути аналітику</button>
 
-      <!-- Second Block: Popular Source Chart -->
-      <div class="analytics-block">
-        <h3 class="block-title">Найпопулярніші джерела</h3>
-        <div echarts [options]="sourcesChartOptions" class="demo-chart"></div>
+      <div *ngIf="topicAnalytics">
+        <div class="analytics-results">
+          <div class="analytics-block">
+            <h3 class="block-title">Кількість новин</h3>
+            <p class="big-number">{{ topicAnalytics.amountOfArticles }}</p>
+          </div>
+
+          <div class="analytics-block">
+            <h3 class="block-title">Найпопулярніші джерела</h3>
+            <div echarts [options]="sourcesChartOptions" class="demo-chart"></div>
+          </div>
+
+          <div class="analytics-block full-width">
+            <h3 class="block-title">Найпопулярніші ключові слова</h3>
+            <div echarts [options]="topKeywordsChartOptions" class="demo-chart"></div>
+          </div>
+        </div>
       </div>
+    </div>
 
-      <!-- Third Block: Popular Keywords Chart -->
-      <div class="analytics-block full-width">
-        <h3 class="block-title">Найпопулярніші ключові слова</h3>
-        <div echarts [options]="topKeywordsChartOptions" class="demo-chart"></div>
+    <div *ngIf="selectedAnalyticsOption === AnalyticsOptions.KEYWORD">
+      <div class="analytics-input-group" id="keywordSelection">
+        <label for="searchKeywords">Ключове слово:</label>
+        <input
+          id="searchKeywords"
+          type="text"
+          [(ngModel)]="selectedKeyword"
+          placeholder="Введіть ключове слово"
+        />
+      </div>
+      <button class="analytics-button" (click)="showKeywordAnalytics()" [disabled]="shouldSubmitButtonBeDisabled()">Переглянути аналітику</button>
+      <div *ngIf="keywordAnalytics">
+        <div class="analytics-results">
+          <div class="analytics-block">
+            <h3 class="block-title">Кількість новин</h3>
+            <p class="big-number">{{ keywordAnalytics.amountOfArticles }}</p>
+          </div>
+
+          <div class="analytics-block">
+            <h3 class="block-title">Найпопулярніші теми</h3>
+            <div echarts [options]="topicsChartOptions" class="demo-chart"></div>
+          </div>
+
+          <div class="analytics-block full-width">
+            <h3 class="block-title">Найпопулярніші джерела</h3>
+            <div echarts [options]="sourcesChartOptions" class="demo-chart"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedAnalyticsOption === AnalyticsOptions.SOURCE">
+      <div class="analytics-input-group" id="sourceSelection">
+        <label for="analyticsSource">Виберіть джерело:</label>
+        <select id="analyticsSource" [(ngModel)]="selectedSource">
+          <option value="">Виберіть джерело</option>
+          <option *ngFor="let source of sources" [value]="source.name">{{source.name}}</option>
+        </select>
+      </div>
+      <button class="analytics-button" (click)="showSourceAnalytics()" [disabled]="shouldSubmitButtonBeDisabled()">Переглянути аналітику</button>
+      <div *ngIf="sourceAnalytics">
+        <div class="analytics-results">
+          <div class="analytics-block">
+            <h3 class="block-title">Кількість новин</h3>
+            <p class="big-number">{{ sourceAnalytics.amountOfArticles }}</p>
+          </div>
+
+          <div class="analytics-block">
+            <h3 class="block-title">Найпопулярніші теми</h3>
+            <div echarts [options]="topicsChartOptions" class="demo-chart"></div>
+          </div>
+
+          <div class="analytics-block full-width">
+            <h3 class="block-title">Найпопулярніші ключові слова</h3>
+            <div echarts [options]="topKeywordsChartOptions" class="demo-chart"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

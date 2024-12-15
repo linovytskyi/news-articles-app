@@ -1,6 +1,7 @@
 package com.newsarcticlesapp.newsapi.service;
 
 import com.newsarcticlesapp.newsapi.model.ArticleKeyword;
+import com.newsarcticlesapp.newsapi.model.Source;
 import com.newsarcticlesapp.newsapi.model.analytics.KeywordCount;
 import com.newsarcticlesapp.newsapi.repository.ArticleKeywordRepository;
 import org.slf4j.Logger;
@@ -28,11 +29,19 @@ public class ArticleKeywordService {
         return getTopKeywordsForAmount(amount);
     }
 
-    public List<KeywordCount> getTopKeywordsCount(String topic, Integer amount) {
+    public List<KeywordCount> getTopKeywordsCount(Integer amount) {
+        return getTopKeywordsCountsForAmount(amount);
+    }
+
+    public List<KeywordCount> getTopKeywordsCountForTopic(String topic, Integer amount) {
         return getTopKeywordsCountForTopicAndAmount(topic, amount);
     }
 
-    public List<String> getTopKeywords(String topic, Integer amount) {
+    public List<KeywordCount> getTopKeywordsCountForSource(Source source, Integer amount) {
+        return getTopKeywordsCountForSourceAndAmount(source, amount);
+    }
+
+    public List<String> getTopKeywordsForTopic(String topic, Integer amount) {
         return getTopKeywordsForTopicAndAmount(topic, amount);
     }
 
@@ -45,12 +54,30 @@ public class ArticleKeywordService {
         return mapListOfKeywordsCountMapToKeywordList(listOfKeywordCountMaps);
     }
 
+    private List<KeywordCount> getTopKeywordsCountsForAmount(Integer amount) {
+        if (amount == null) {
+            amount = DEFAULT_AMOUNT_OF_KEYWORDS;
+        }
+        LOGGER.info("Getting top {} keywords for articles on all topics", amount);
+        List<Map<String, Object>> listOfKeywordCountMaps = articleKeywordRepository.findTopKeywords( PageRequest.of(0, amount));
+        return mapListOfKeywordsCountMapToKeywordCountList(listOfKeywordCountMaps);
+    }
+
     private List<KeywordCount> getTopKeywordsCountForTopicAndAmount(String topic, Integer amount) {
         if (amount == null) {
             amount = DEFAULT_AMOUNT_OF_KEYWORDS;
         }
         LOGGER.info("Getting top {} keywords for articles on all topics", amount);
         List<Map<String, Object>> listOfKeywordCountMaps = articleKeywordRepository.findTopKeywordsForTopic(topic, PageRequest.of(0, amount));
+        return mapListOfKeywordsCountMapToKeywordCountList(listOfKeywordCountMaps);
+    }
+
+    private List<KeywordCount> getTopKeywordsCountForSourceAndAmount(Source source, Integer amount) {
+        if (amount == null) {
+            amount = DEFAULT_AMOUNT_OF_KEYWORDS;
+        }
+
+        List<Map<String, Object>> listOfKeywordCountMaps = articleKeywordRepository.findTopKeywordsForSource(source.getId(), PageRequest.of(0, amount));
         return mapListOfKeywordsCountMapToKeywordCountList(listOfKeywordCountMaps);
     }
 
@@ -104,5 +131,9 @@ public class ArticleKeywordService {
         Set<ArticleKeyword> articleKeywords = articleKeywordRepository.findAllByArticleId(articleId);
         LOGGER.info("Found {} article keywords", articleKeywords.size());
         return articleKeywords;
+    }
+
+    public long countAmountOfArticlesWithKeyword(String keyword) {
+        return articleKeywordRepository.countArticlesWithKeywordValue(keyword);
     }
 }

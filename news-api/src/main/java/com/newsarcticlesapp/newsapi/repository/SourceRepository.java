@@ -11,4 +11,6 @@ public interface SourceRepository extends JpaRepository<Source, Long> {
 
     Optional<Source> findByUrl(String name);
 
+    Source findByName(String name);
+
 }

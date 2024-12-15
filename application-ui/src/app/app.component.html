@@ -1,11 +1,12 @@
 <header>
   <h1 class="header-navigation"><span class="header-name" (click)="navigateTo(NavigationOptions.FEED)">Новини АІ</span>
-    <nav class="navigation-selection">
+    <nav class="navigation-selection" *ngIf="isUserLoggedIn()">
       <div (click)="navigateTo(NavigationOptions.FEED)" [ngClass]="isSelected(NavigationOptions.FEED) ? 'navigation-item-selected' : ''" class="navigation-item">Стрічка</div>
       <div (click)="navigateTo(NavigationOptions.SEARCH)" [ngClass]="isSelected(NavigationOptions.SEARCH) ? 'navigation-item-selected' : ''" class="navigation-item">Пошук</div>
       <div (click)="navigateTo(NavigationOptions.ANALYTICS)" [ngClass]="isSelected(NavigationOptions.ANALYTICS) ? 'navigation-item-selected' : ''"  class="navigation-item">Аналітика</div>
-      <div (click)="navigateTo(NavigationOptions.ANALYTICS)" [ngClass]="isSelected(NavigationOptions.SAVED) ? 'navigation-item-selected' : ''"  class="navigation-item">Збережене</div>
-      <img src="assets/images/icons8-logout-50.png" class="inline-image" style="width: 36px; height: 36px;"/>
+      <div (click)="navigateTo(NavigationOptions.SAVED)" [ngClass]="isSelected(NavigationOptions.SAVED) ? 'navigation-item-selected' : ''"  class="navigation-item">Збережене</div>
+      <img src="assets/images/icons8-logout-50.png" (click)="logout()" class="inline-image" style="width: 36px; height: 36px;"/>
     </nav></h1>
 </header>
+<app-toast></app-toast>
 <router-outlet></router-outlet>

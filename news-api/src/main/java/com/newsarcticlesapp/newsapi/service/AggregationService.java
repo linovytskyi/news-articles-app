@@ -55,7 +55,7 @@ public class AggregationService {
 
             Optional<Article> duplicateArticle = articleService.findArticleByOriginalTitleAndSource(article.getOriginalTitle(), article.getSource());
 
-            if (duplicateArticle.isEmpty()) {
+            if (duplicateArticle.isEmpty() && article.getText().length() > 400) {
                 ArticleText text = new ArticleText(aggregatedArticle.getText());
 
                 processArticleClassification(text, article);

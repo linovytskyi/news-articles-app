@@ -27,7 +27,7 @@ public class KeywordController {
         String topic = request.getTopic();
         Integer amount = request.getAmount();
         if (topic != null && !topic.isEmpty()) {
-            return ResponseEntity.ok(articleKeywordService.getTopKeywords(topic, amount));
+            return ResponseEntity.ok(articleKeywordService.getTopKeywordsForTopic(topic, amount));
         } else {
             return ResponseEntity.ok(articleKeywordService.getTopKeywords(amount));
         }

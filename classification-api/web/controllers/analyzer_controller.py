@@ -21,12 +21,12 @@ router = APIRouter(prefix='/analyze')
 def analyze_text(text_data: TextData,
                  topic_service: TopicRepository = Depends(get_topic_service),
                  keyword_service: KeywordRepository = Depends(get_keyword_service)):
-    text = text_data.text
+    text = text_data.text.lower()
     logger.info(f"Received request to analyze text:\n {text}")
     topic_name = text_classifier.classify_topic(text)
     topic = topic_service.get_topic_by_name(topic_name)
 
-    topic_keywords = keyword_service.get_all_keywords_by_topic_id(topic.id)
+    topic_keywords = [keyword.lower() for keyword in keyword_service.get_all_keywords_by_topic_id(topic.id)]
 
     persons = text_entity_extractor.extract_entities_with_label(text, "PER")
     locations = text_entity_extractor.extract_entities_with_label(text, "LOC")

@@ -1,5 +1,8 @@
 <div class="topic-selection">
   <div class="topic-selection-list">
+    <div (click)="selectTopic('Останні новини')"
+         class="topic-selection-item"
+         [ngClass]="isSelected('Останні новини') ? 'topic-selection-item-selected' : ''">Останні новини</div>
     <div *ngFor="let topic of topics"
          (click)="selectTopic(topic)"
          class="topic-selection-item"

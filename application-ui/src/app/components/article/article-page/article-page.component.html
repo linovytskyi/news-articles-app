@@ -37,7 +37,7 @@
                 </label>
               </div>
               <div style="text-align: right">
-                <img class="inline-image" src="assets/images/bookmark.svg">
+                <img class="inline-image" src="assets/images/bookmark.svg" (click)="saveArticle()">
               </div>
             </div>
             <p class="news-summary" *ngFor="let paragraph of getTextParagraphs(article)">{{ paragraph }}</p>
